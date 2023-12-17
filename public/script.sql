@@ -75,6 +75,7 @@ create table KeHoachDieuTri (
 create table ChongChiDinh (
 	IDBenhNhan int,
 	IDThuoc int
+	primary key (IDBenhNhan,IDThuoc)
 )
 
 
@@ -82,6 +83,7 @@ create table Thuoc_DonThuoc (
 	IDThuoc int,
 	IDDonThuoc int,
 	SoLuong int
+	primary key (IDThuoc,IDDonThuoc)
 )
 
 create table Rang (
@@ -95,6 +97,7 @@ create table KeHoachDieuTri_Rang (
 	IDKeHoachDieuTri int,
 	IDRang int,
 	STT int,
+	primary key (IDKeHoachDieuTri,IDRang,STT)
 )
 
 create table DanhMucDieuTri (
