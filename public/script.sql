@@ -14,16 +14,16 @@ create table UserTable (
 
 create table LichNgay (
 	IDLich int IDENTITY(1,1) primary key,
-	IDNhasi int,
+	IDNhaSi int,
 	ngay date,
 	timeStart time,
 	timeEnd time,
-	calenderType nvarchar(11)
+	--calenderType nvarchar(11),
 )
 
 create table LichTuan (
 	IDLich int IDENTITY(1,1) primary key,
-	IDNhasi int,
+	IDNhaSi int,
 	weekStart date,
 	weekEnd date,
 	mon int,
@@ -37,7 +37,7 @@ create table LichTuan (
 
 create table LichThang (
 	IDLich int IDENTITY(1,1) primary key,
-	IDNhasi int,
+	IDNhaSi int,
 	thang int,
 	ngayRanh char(100)
 )
