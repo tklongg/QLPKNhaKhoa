@@ -6,9 +6,10 @@
 create table UserTable (
 	IDUser int IDENTITY(1,1) primary key,
 	soDienThoai char(11),
+	ten nvarchar(100),
 	ngaySinh date,
-	gioiTinh nvarchar(5),
-	email nvarchar(11),
+	gioiTinh nvarchar(10),
+	email nvarchar(100),
 	userType nvarchar(11)
 )
 
@@ -39,6 +40,7 @@ create table LichThang (
 	IDLich int IDENTITY(1,1) primary key,
 	IDNhaSi int,
 	thang int,
+	nam int,
 	ngayRanh char(100)
 )
 
@@ -87,17 +89,17 @@ create table Thuoc_DonThuoc (
 )
 
 create table Rang (
-	IDRang int,
+	IDLoaiMatRang char(1),
 	STT int,
 	tenRang nvarchar(50)
-	primary key (IDRang,STT)
+	primary key (IDLoaiMatRang,STT)
 )
 
 create table KeHoachDieuTri_Rang (
 	IDKeHoachDieuTri int,
-	IDRang int,
+	IDLoaiMatRang char(1),
 	STT int,
-	primary key (IDKeHoachDieuTri,IDRang,STT)
+	primary key (IDKeHoachDieuTri,IDLoaiMatRang,STT)
 )
 
 create table DanhMucDieuTri (
@@ -159,6 +161,14 @@ alter table LichTuan add constraint FK_LichTuan_NhaSi foreign key (IDNhaSi) refe
 alter table LichThang add constraint FK_LichThang_NhaSi foreign key (IDNhaSi) references UserTable(IDUser)
 
 alter table KeHoachDieuTri_Rang add constraint FK_KeHoachDieuTri_Rang_KH foreign key (IDKeHoachDieuTri) references KeHoachDieuTri(IDKeHoachDieuTri)
-alter table KeHoachDieuTri_Rang add constraint FK_KeHoachDieuTri_Rang_Rang foreign key (IDRang,STT) references Rang(IDRang,STT)
+alter table KeHoachDieuTri_Rang add constraint FK_KeHoachDieuTri_Rang_Rang foreign key (IDLoaiMatRang,STT) references Rang(IDLoaiMatRang,STT)
 
 alter table ThanhToan add constraint FK_ThanhToan_KHDT foreign key (IDKeHoachDieuTri) references KeHoachDieuTri(IDKeHoachDieuTri)
+
+
+---index
+CREATE NONCLUSTERED INDEX IX_LichNgay_IDNhaSi
+ON LichNgay(IDNhaSi);
+
+CREATE NONCLUSTERED INDEX IX_LichNgay_Ngay
+ON LichNgay (Ngay);
