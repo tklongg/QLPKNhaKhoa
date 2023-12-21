@@ -59,8 +59,7 @@ create table Thuoc (
 
 create table DonThuoc (
 	IDDonThuoc int IDENTITY(1,1) primary key,
-	IDKeHoachDieuTri int,
-	IDThuoc int
+	IDKeHoachDieuTri int
 )
 
 create table KeHoachDieuTri (
