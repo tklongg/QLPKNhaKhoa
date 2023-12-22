@@ -1,0 +1,21 @@
+.login_page {
+    margin: 7%;
+    border: 1px solid #d5d5d5;
+    font-size: 18px;
+    // display: flex;
+    // flex-direction: column;
+    
+}
+.top_bar {
+    background-color: #D9EDF7;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+        margin: 0;
+    }
+}

@@ -1,0 +1,45 @@
+.input_phone_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    // justify-content: center;
+    margin-top: 10%;
+    height: 50vh;
+    background-color: #f9f9f9;
+
+    label {
+        margin-bottom: 8px;
+        font-size: 18px;
+        color: #333;
+    }
+
+    input {
+        padding: 12px;
+        margin-bottom: 16px;
+        border: 2px solid #D9EDF7;
+        border-radius: 4px;
+        font-size: 16px;
+        width: 300px;
+        outline: none;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            border-color: #e74c3c;
+        }
+    }
+
+    button {
+        padding: 12px 24px;
+        cursor: pointer;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 18px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: #2980b9;
+        }
+    }
+}
