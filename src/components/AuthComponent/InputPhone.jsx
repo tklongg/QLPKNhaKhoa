@@ -1,12 +1,50 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styles from './inputphone.module.scss'
+import { fb } from '../../../util/firebase';
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { FirebaseContext } from '@/src/app/login/layout';
 const InputPhone = ({ stepArr, step, setStep, phone, setPhone }) => {
-    const handleNextStep = () => {
-        setStep(stepArr[1])
+    const fbauth = getAuth();
+    const { confirmationResult, setConfirmationResult } = useContext(FirebaseContext)
+    useEffect(() => {
+        setUpRecaptcha()
+
+    }, [])
+    const setUpRecaptcha = () => {
+        window.recaptchaVerifier = new RecaptchaVerifier(fbauth, 'btnSubmitPhone', {
+            'size': 'invisible',
+            'callback': (response) => {
+                // reCAPTCHA solved, allow signInWithPhoneNumber.
+                // ...
+                // const appVerifier = window.recaptchaVerifier;
+                // console.log(appVerifier)
+                // console.log("ok con dê")
+            },
+            'expired-callback': () => {
+                // Response expired. Ask user to solve reCAPTCHA again.
+                // ...
+                console.log("ko ok con dê")
+            }
+        });
+    };
+    const handleNextStep = async () => {
+        const appVerifier = window.recaptchaVerifier;
+        console.log(appVerifier)
+        console.log("ok con dê")
+        try {
+            const confirmationResult = await signInWithPhoneNumber(fbauth, phone, appVerifier)
+            window.confirmationResult = confirmationResult;
+            setConfirmationResult(confirmationResult)
+            console.log(confirmationResult)
+            setStep(stepArr[1])
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
+
         <div className={styles.input_phone_container}>
             <label htmlFor="phone">Nhập số điện thoại:</label>
             <input
@@ -15,7 +53,8 @@ const InputPhone = ({ stepArr, step, setStep, phone, setPhone }) => {
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
             />
-            <button onClick={handleNextStep}>Next</button>
+            <button id="btnSubmitPhone" onClick={handleNextStep} type='submit'>Next</button>
+
         </div>
     )
 }

@@ -1,12 +1,15 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useRouter } from 'next/router';
+import { AuthContext } from './layout';
 import InputPhone from '../../components/AuthComponent/InputPhone'
 import InputVerify from '../../components/AuthComponent/InputVerify'
 import InputNewUser from '../../components/AuthComponent/InputNewUser'
 import styles from './login.module.scss'
-// import { connectDB } from '@/util/dbconfig';
-// import { db } from '../../../util/db'
+import { fb } from '../../../util/firebase';
+import { getAuth, RecaptchaVerifier } from "firebase/auth";
+
+
 const stepArr = ["input_telephone", "submit_verify", "is_new_user", "redirect_to_home"]
 function LoginPage() {
     const [phone, setPhone] = useState("")
@@ -14,6 +17,9 @@ function LoginPage() {
     // const [verifyCode, setVerifyCode] = useState("")
     const [name, setName] = useState("")
     const [dob, setDOB] = useState(new Date())
+    // const { auth, setAuth } = useContext(AuthContext)
+
+
     const showStepName = () => {
         switch (step) {
             case stepArr[0]:
@@ -64,7 +70,6 @@ function LoginPage() {
                 </div>
                 {showStep()}
             </div>
-
         </>
     )
 }

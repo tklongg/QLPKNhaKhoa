@@ -1,15 +1,35 @@
 "use client"
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 // import styles from './inputverify.module.scss'
+import { FirebaseContext } from '@/src/app/login/layout';
+import { getAuth } from "firebase/auth";
 import './inputverify.css'
 const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
     const [code, setCode] = useState(Array(6).fill(''));
     const formRef = useRef(null);
+    const { confirmationResult, setConfirmationResult } = useContext(FirebaseContext)
+    useEffect(() => {
+        // Log the code whenever it changes
+        console.log('Code:', getCode());
+    }, [code]);
     const handleBackStep = () => {
         setStep(stepArr[0])
     }
-    const handleNextStep = () => {
-        setStep(stepArr[2])
+    const handleNextStep = (event) => {
+        event.preventDefault();
+        const strcode = getCode();
+        confirmationResult.confirm(strcode).then((result) => {
+            // User signed in successfully.
+            // const user = result.user;
+            console.log("okê con dê")
+            setStep(stepArr[2])
+            // ...
+        }).catch((error) => {
+            // User couldn't sign in (bad verification code?)
+            // ...
+            console.log("ko okê con dê")
+        });
+
     }
     const update = (index, val) => {
         setCode((prevState) => {
@@ -18,21 +38,24 @@ const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
             return slice;
         });
     };
-
+    const updateCode = (index, value) => {
+        setCode((prevCode) => {
+            const newCode = [...prevCode];
+            newCode[index] = value;
+            return newCode;
+        });
+    };
     const handleChange = (evt) => {
         const value = evt.currentTarget.value;
         const index = parseInt(evt.currentTarget.dataset.index, 10);
-        const form = formRef.current;
 
-        if (isNaN(index) || form === null) return;
+        if (isNaN(index)) return;
 
-        update(index, value[0] || "");
-
+        updateCode(index, value[0] || '');
 
         if (value.length === 1 && index < code.length - 1) {
             const nextIndex = index + 1;
-            const nextInput = form.querySelector(`.${`input-${nextIndex}`}`);
-            console.log(nextInput)
+            const nextInput = formRef.current.querySelector(`.input-${nextIndex}`);
             if (nextInput) {
                 nextInput.focus();
             }
@@ -41,42 +64,114 @@ const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
 
     const handleKeyDown = (evt) => {
         const index = parseInt(evt.currentTarget.dataset.index, 10);
+
+        if (isNaN(index)) return;
+
         const form = formRef.current;
-
-        if (isNaN(index) || form === null) return;
-
         const prevIndex = index - 1;
         const nextIndex = index + 1;
-        const prevInput = form.querySelector(`.${`input-${prevIndex}`}`);
-        const nextInput = form.querySelector(`.${`input-${nextIndex}`}`);
-        console.log("prev input", prevInput)
-        console.log("next input", nextInput)
+        const prevInput = form.querySelector(`.input-${prevIndex}`);
+        const nextInput = form.querySelector(`.input-${nextIndex}`);
 
         switch (evt.key) {
-            case "Backspace":
+            case 'Backspace':
                 if (code[index]) {
-                    update(index, "");
+                    updateCode(index, '');
                 } else if (prevInput) {
                     prevInput.focus();
                 }
                 break;
-            case "ArrowRight":
+            case 'ArrowRight':
                 evt.preventDefault();
                 if (nextInput) {
                     nextInput.focus();
                 }
                 break;
-            case "ArrowLeft":
+            case 'ArrowLeft':
                 evt.preventDefault();
                 if (prevInput) {
                     prevInput.focus();
                 }
                 break;
+            default:
+                break;
         }
     };
+    // const handleChange = (evt) => {
+    //     const value = evt.currentTarget.value;
+    //     const index = parseInt(evt.currentTarget.dataset.index, 10);
+    //     const form = formRef.current;
 
+    //     if (isNaN(index) || form === null) return;
+
+    //     update(index, value[0] || "");
+
+
+    //     if (value.length === 1 && index < code.length - 1) {
+    //         const nextIndex = index + 1;
+    //         const nextInput = form.querySelector(`.${`input-${nextIndex}`}`);
+    //         console.log(nextInput)
+    //         if (nextInput) {
+    //             nextInput.focus();
+    //         }
+    //     }
+    // };
+
+    // const handleKeyDown = (evt) => {
+    //     const index = parseInt(evt.currentTarget.dataset.index, 10);
+    //     const form = formRef.current;
+
+    //     if (isNaN(index) || form === null) return;
+
+    //     const prevIndex = index - 1;
+    //     const nextIndex = index + 1;
+    //     const prevInput = form.querySelector(`.${`input-${prevIndex}`}`);
+    //     const nextInput = form.querySelector(`.${`input-${nextIndex}`}`);
+    //     console.log("prev input", prevInput)
+    //     console.log("next input", nextInput)
+
+    //     switch (evt.key) {
+    //         case "Backspace":
+    //             if (code[index]) {
+    //                 update(index, "");
+    //             } else if (prevInput) {
+    //                 prevInput.focus();
+    //             }
+    //             break;
+    //         case "ArrowRight":
+    //             evt.preventDefault();
+    //             if (nextInput) {
+    //                 nextInput.focus();
+    //             }
+    //             break;
+    //         case "ArrowLeft":
+    //             evt.preventDefault();
+    //             if (prevInput) {
+    //                 prevInput.focus();
+    //             }
+    //             break;
+    //     }
+    //     console.log(code)
+    // };
+    const getCode = () => {
+        const f = formRef.current;
+        // if (isNaN(index) || form === null) return;
+        let strCode = ''
+        for (let i = 0; i < 6; i++) {
+            const inputN = document.querySelector(`.${`input-${i}`}`);
+            if (inputN) {
+                const val = inputN.value; ("value")
+                if (val) {
+                    strCode += val;
+                }
+            }
+        }
+
+        return strCode
+    }
     return (
         <form ref={formRef} onSubmit={onVerify} className='inputVerifyForm'>
+            {/* {showCode()} */}
             <div className='inputContainer'>
                 {code.map((value, i) => (
                     <input
