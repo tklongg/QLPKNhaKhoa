@@ -16,8 +16,6 @@ function LoginPage() {
     const [step, setStep] = useState(stepArr[0])
     // const [verifyCode, setVerifyCode] = useState("")
     const [name, setName] = useState("")
-    const [gioiTinh, setGioiTinh] = useState("")
-    const [email, setEmail] = useState("")
     const [dob, setDOB] = useState(new Date())
     // const { auth, setAuth } = useContext(AuthContext)
 
@@ -48,6 +46,8 @@ function LoginPage() {
                     step={step}
                     setStep={setStep}
                     phone={phone}
+                    // verifyCode={verifyCode}
+                    // setVerifyCode={setVerifyCode}
                     onVerify={() => { }}
                 />
             case stepArr[2]:
@@ -55,15 +55,10 @@ function LoginPage() {
                     stepArr={stepArr}
                     step={step}
                     setStep={setStep}
-                    phone={phone}
                     name={name}
                     setName={setName}
                     dob={dob}
                     setDOB={setDOB}
-                    gioiTinh={gioiTinh}
-                    setGioiTinh={setGioiTinh}
-                    email={email}
-                    setEmail={setEmail}
                 />
         }
     }

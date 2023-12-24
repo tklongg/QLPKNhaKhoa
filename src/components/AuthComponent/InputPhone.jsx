@@ -4,6 +4,7 @@ import styles from './inputphone.module.scss'
 import { fb } from '../../../util/firebase';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { FirebaseContext } from '@/src/app/login/layout';
+import { normalizePhoneNumber } from '../../../util/phone'
 const InputPhone = ({ stepArr, step, setStep, phone, setPhone }) => {
     const fbauth = getAuth();
     const { confirmationResult, setConfirmationResult } = useContext(FirebaseContext)
@@ -33,7 +34,8 @@ const InputPhone = ({ stepArr, step, setStep, phone, setPhone }) => {
         console.log(appVerifier)
         console.log("ok con dê")
         try {
-            const confirmationResult = await signInWithPhoneNumber(fbauth, phone, appVerifier)
+            const normalizedPhoneNum = normalizePhoneNumber(phone)
+            const confirmationResult = await signInWithPhoneNumber(fbauth, normalizedPhoneNum, appVerifier)
             window.confirmationResult = confirmationResult;
             setConfirmationResult(confirmationResult)
             console.log(confirmationResult)

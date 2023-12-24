@@ -22,6 +22,7 @@ const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
             // User signed in successfully.
             // const user = result.user;
             console.log("okê con dê")
+
             setStep(stepArr[2])
             // ...
         }).catch((error) => {
