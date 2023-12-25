@@ -1,0 +1,36 @@
+/* calendar.css */
+.calendar {
+    width: 60%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+}
+
+.month-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.day {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}
+
+.other-month {
+    color: #aaa;
+}
+
+.selected {
+    background-color: #3498db;
+    color: #fff;
+}

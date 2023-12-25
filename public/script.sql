@@ -126,6 +126,7 @@ create table CuocHen (
 	IDNhaSi int,
 	IDTroKham int,
 	thoiGian time,
+	ngayHen date,
 	soDienThoai char(11),
 	IDPhong int,
 	tinhTrang nvarchar(15)
