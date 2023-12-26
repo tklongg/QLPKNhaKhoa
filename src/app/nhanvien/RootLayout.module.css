@@ -1,0 +1,14 @@
+/* RootLayout.module.css */
+.rootLayout {
+    display: flex;
+    height: 100vh;
+}
+
+.content {
+    flex: 1;
+    overflow: auto;
+    /* padding: 20px; */
+    box-sizing: border-box;
+}
+
+/* Add any additional styling you want for the content area */

@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 
 const getLocalValue = (key, initValue) => {
@@ -21,6 +22,7 @@ const useLocalStorage = (key, initValue) => {
 
     useEffect(() => {
         localStorage.setItem(key, JSON.stringify(value));
+        console.log("ok mày", value)
     }, [key, value])
 
     return [value, setValue];

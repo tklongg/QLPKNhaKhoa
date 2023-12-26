@@ -1,0 +1,104 @@
+/* appointment.css */
+.title-wrap {
+    font-size: 22px;
+    height: 60px;
+    /* Ajust height as needed */
+    width: 100%;
+    border: 1px solid #E0E0E0;
+    display: flex;
+    align-items: center;
+}
+
+.title-wrap .page-title {
+    margin-left: 1em;
+}
+
+.appointments-container {
+    margin: 20px;
+    /* Add margin for spacing */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #E0E0E0;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f0f0f0;
+}
+
+.detail-row {
+    background-color: #f0f0f0;
+}
+
+.detail-content {
+    padding: 10px;
+    border: 1px solid #E0E0E0;
+    margin: 10px 0;
+}
+
+.detail-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.detail-info div {
+    flex: 1;
+}
+
+.detail-info div p {
+    margin-bottom: 5px;
+}
+
+button {
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+.filter-section {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Để căn giữa theo chiều ngang */
+}
+
+.filter-section label {
+    margin-right: 5px;
+}
+
+.filter-section input,
+.filter-section select,
+.filter-section button {
+    padding: 8px;
+    /* Để làm đẹp hơn */
+    margin-right: 10px;
+}
+
+.filter-section button {
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+}
+
+.filter-section button:hover {
+    background-color: #0056b3;
+}

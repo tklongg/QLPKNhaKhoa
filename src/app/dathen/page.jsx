@@ -23,24 +23,8 @@ function DatHen() {
     const [selectedDoctor, setSelectedDoctor] = useState('');
     const [selectedRoom, setSelectedRoom] = useState('');
     const [selectedAssistant, setSelectedAssistant] = useState('');
-    const [excluded, setExcluded] = useState('');
-    const [searchDoctor, setSearchDoctor] = useState('');
-    const [isDoctorDropdownOpen, setIsDoctorDropdownOpen] = useState(false);
-    const doctorDropdownRef = useRef(null);
 
-    // useEffect(() => {
-    //     const handleClickOutside = (event) => {
-    //         if (doctorDropdownRef.current && !doctorDropdownRef.current.contains(event.target)) {
-    //             setIsDoctorDropdownOpen(false);
-    //         }
-    //     };
 
-    //     document.addEventListener('click', handleClickOutside);
-
-    //     return () => {
-    //         document.removeEventListener('click', handleClickOutside);
-    //     };
-    // }, [doctorDropdownRef]);
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
