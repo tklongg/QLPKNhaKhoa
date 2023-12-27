@@ -172,3 +172,62 @@ ON LichNgay(IDNhaSi);
 
 CREATE NONCLUSTERED INDEX IX_LichNgay_Ngay
 ON LichNgay (Ngay);
+
+--store procedure
+--Duc
+
+--create user
+CREATE PROCEDURE sp_AddUser
+	@soDienThoai char(11),
+	@ten nvarchar(100),
+	@ngaySinh date,
+	@gioiTinh nvarchar(10),
+	@email nvarchar(100),
+	@userType nvarchar(11)
+AS
+BEGIN
+	INSERT INTO UserTable
+		(soDienThoai, ten, ngaySinh, gioiTinh, email, userType)
+	VALUES
+		(@soDienThoai, @ten, @ngaySinh, @gioiTinh, @email, @userType);
+END
+
+--create lich hen
+CREATE PROCEDURE sp_AddAppointment
+    @IDBenhNhan int,
+    @IDNhaSi int,
+    @IDTroKham int,
+    @thoiGian time,
+    @ngayHen date,
+    @soDienThoai char(11),
+    @IDPhong int,
+    @tinhTrang nvarchar(15)
+AS
+BEGIN
+    INSERT INTO CuocHen (IDBenhNhan, IDNhaSi, IDTroKham, thoiGian, ngayHen, soDienThoai, IDPhong, tinhTrang)
+    VALUES (@IDBenhNhan, @IDNhaSi, @IDTroKham, @thoiGian, @ngayHen, @soDienThoai, @IDPhong, @tinhTrang);
+END
+
+--filter danh sach cuoc hen bac si theo thoi gian
+CREATE PROCEDURE sp_GetAppointmentsByDoctorAndDateRange
+    @IDNhaSi int,
+    @StartDate date,
+    @EndDate date
+AS
+BEGIN
+    SELECT *
+    FROM CuocHen
+    WHERE IDNhaSi = @IDNhaSi AND ngayHen BETWEEN @StartDate AND @EndDate;
+END
+
+--lay danh sach don thuoc cua benh nhan
+CREATE PROCEDURE sp_GetPrescriptionsByPatient
+    @IDBenhNhan int
+AS
+BEGIN
+    SELECT *
+    FROM DonThuoc
+    WHERE IDKeHoachDieuTri IN (SELECT IDKeHoachDieuTri FROM KeHoachDieuTri WHERE IDBenhNhan = @IDBenhNhan);
+END
+
+
