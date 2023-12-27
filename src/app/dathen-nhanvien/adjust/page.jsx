@@ -1,8 +1,9 @@
 "use client"
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import Calendar from '@/src/components/Calender/Calender';
+import { useSearchParams } from 'next/navigation'
 import CustomDropdown from '@/src/components/ChooseDoctorDropdown/ChooseDoctorDropdown';
-import './dathen.css'
+import '../dathennhanvien.css'
 
 const doctors = [
     { id: 1, name: 'Sam Smith' },
@@ -17,11 +18,21 @@ const assistants = [
     // Add more doctors as needed
 ];
 
-function DatHen() {
-    const [selectedDate, setSelectedDate] = useState('');
+function AdjustAppointment() {
+    //IDCuocHen, IDUser
+    const searchParams = useSearchParams()
+    const IDUser = searchParams.get('IDUser')
+    const IDNhaSi = searchParams.get('IDNhaSi')
+    const IDTroKham = searchParams.get('IDTroKham')
+    const date = searchParams.get('date')
+    const room = searchParams.get('room')
+    // const time = searchParams.get('time')
+    // console.log(searchParams)
+    //URLSearchParams { 'IDUser' => '1', 'IDCuocHen' => '1' }
+    const [selectedDate, setSelectedDate] = useState(room);
     const [selectedTime, setSelectedTime] = useState('');
     const [selectedDoctor, setSelectedDoctor] = useState('');
-    const [selectedRoom, setSelectedRoom] = useState('');
+    const [selectedRoom, setSelectedRoom] = useState('Phòng 1');
     const [selectedAssistant, setSelectedAssistant] = useState('');
 
 
@@ -53,10 +64,12 @@ function DatHen() {
         setSelectedRoom(room);
     };
 
-
+    const handlePhoneInput = (e) => {
+        setPhone(e.target.value)
+    }
     const handleSubmit = () => {
         // Placeholder logic, replace with actual logic to save appointment
-        console.log('Booking appointment:', selectedDate, selectedRoom, selectedDoctor, selectedAssistant, selectedTime,);
+        console.log('Booking appointment:', phone, selectedDate, selectedRoom, selectedDoctor, selectedAssistant, selectedTime,);
     };
 
     return (
@@ -70,16 +83,18 @@ function DatHen() {
 
                 <div className="form-section">
                     <label>Chọn phòng:</label>
-                    <select onChange={(e) => handleRoomSelect(e.target.value)}>
-                        <option selected value="Phòng 1">Phòng 1</option>
+                    <select value={selectedRoom} onChange={(e) => handleRoomSelect(e.target.value)}>
+                        <option value="Phòng 1">Phòng 1</option>
                         <option value="Phòng 2">Phòng 2</option>
                     </select>
                 </div>
 
 
+
                 <div className="form-section">
                     <label>Chọn bác sĩ:</label>
                     <CustomDropdown
+                        // selected={doctors[0]}
                         options={doctors}
                         onSelect={(selectedOption) => handleDoctorSelect(selectedOption)}
                         type="bác sĩ"
@@ -90,6 +105,7 @@ function DatHen() {
                 <div className="form-section">
                     <label>Chọn trợ khám:</label>
                     <CustomDropdown
+                        // selected={assistants[1]}
                         options={assistants}
                         onSelect={(selectedOption) => handleAssistantSelect(selectedOption)}
                         type="trợ khám"
@@ -107,11 +123,12 @@ function DatHen() {
                     </select>
                 </div>
                 <div className='form-section'>
-                    <button onClick={handleSubmit}>Đặt hẹn</button>
+                    <button onClick={handleSubmit}>Sửa</button>
+                    <button onClick={handleSubmit}>Hủy</button>
                 </div>
             </div>
         </div>
     );
 }
 
-export default DatHen
+export default AdjustAppointment

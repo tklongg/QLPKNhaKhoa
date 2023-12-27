@@ -24,9 +24,10 @@ export default function RootLayout({ children }) {
             router.push('/login');
         } else if (userData.userType === "User") {
             router.push('/dathen');
-        } else {
-            router.push('/nhanvien/appointments');
         }
+        // else {
+        //     router.push('/nhanvien/appointments');
+        // }
     }, [router, userData]);
     return (
         <div className={`${styles.rootLayout} ${inter.className}`}>

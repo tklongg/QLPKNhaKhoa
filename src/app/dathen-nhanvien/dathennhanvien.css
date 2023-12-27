@@ -1,0 +1,151 @@
+/* bookingPage.css */
+.container {
+    display: flex;
+    justify-content: center;
+
+}
+
+.booking-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.booking-page h2 {
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+/* .form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 50%;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+} */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    /* Điều chỉnh kích thước tối đa của form-container */
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* .form-section {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+} */
+.form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-section-doctor {
+    display: flex;
+    /* height: 500px; */
+    flex-direction: column;
+    gap: 10px;
+    /* align-items: center; */
+    margin-bottom: 20px;
+}
+
+@media (min-width: 600px) {
+    .form-container {
+        max-width: 600px;
+        /* Điều chỉnh kích thước tối đa cho màn hình lớn hơn */
+    }
+}
+
+.form-section label,
+.form-section-doctor label {
+    font-size: 1.17em;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+.doctor-select-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.doctor-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.doctor-dropdown-container input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 17px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input,
+.form-section select,
+.form-section-doctor select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 17px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input:focus,
+.form-section select:focus {
+    border-color: #3c9ae7;
+}
+
+button {
+    padding: 14px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+.doctor-select-container button {
+    height: auto;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 17px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+    background-color: white;
+}
+
+.form-section button {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+    font-size: 17px;
+}
+
+.form-section .input-phone {
+    padding: 12px;
+    width: 96%;
+}

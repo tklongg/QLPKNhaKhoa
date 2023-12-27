@@ -1,8 +1,27 @@
 import { db } from './db'
 
-export const getUser = async (data) => {
-    if (data.phone) {
-
+export const getUserById = async (id) => {
+    try {
+        const user = await db("UserTable").where("IDUser", id)
+        if (user.length > 0) {
+            return user
+        }
+        else return null
+    } catch (error) {
+        console.log("lỗi tìm kiếm user", error)
+        return null
+    }
+}
+export const getUserByPhone = async (phone) => {
+    try {
+        const user = await db("UserTable").where("soDienThoai", phone)
+        if (user) {
+            return user
+        }
+        else return null
+    } catch (error) {
+        console.log("lỗi tìm kiếm user bằng đt", error)
+        return null
     }
 }
 

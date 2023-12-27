@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext, useRef } from 'react'
 import Calendar from '@/src/components/Calender/Calender';
 import CustomDropdown from '@/src/components/ChooseDoctorDropdown/ChooseDoctorDropdown';
-import './dathen.css'
+import './dathennhanvien.css'
 
 const doctors = [
     { id: 1, name: 'Sam Smith' },
@@ -17,7 +17,8 @@ const assistants = [
     // Add more doctors as needed
 ];
 
-function DatHen() {
+function DatHenNhanVien() {
+    const [phone, setPhone] = useState("")
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedTime, setSelectedTime] = useState('');
     const [selectedDoctor, setSelectedDoctor] = useState('');
@@ -38,7 +39,7 @@ function DatHen() {
     const handleDoctorSelect = (doctor) => {
         // const doctorJSON = JSON.parse(doctor)
         setSelectedDoctor(doctor.id);
-        // setExcluded(doctor.id)
+        setExcluded(doctor.id)
         console.log(doctor)
         // setIsDoctorDropdownOpen(false);
     };
@@ -53,10 +54,12 @@ function DatHen() {
         setSelectedRoom(room);
     };
 
-
+    const handlePhoneInput = (e) => {
+        setPhone(e.target.value)
+    }
     const handleSubmit = () => {
         // Placeholder logic, replace with actual logic to save appointment
-        console.log('Booking appointment:', selectedDate, selectedRoom, selectedDoctor, selectedAssistant, selectedTime,);
+        console.log('Booking appointment:', phone, selectedDate, selectedRoom, selectedDoctor, selectedAssistant, selectedTime,);
     };
 
     return (
@@ -69,12 +72,18 @@ function DatHen() {
                 </div>
 
                 <div className="form-section">
+                    <label>Nhập số điện thoại:</label>
+                    <input type="text" value={phone} onChange={handlePhoneInput} className='input-phone' />
+                </div>
+
+                <div className="form-section">
                     <label>Chọn phòng:</label>
                     <select onChange={(e) => handleRoomSelect(e.target.value)}>
                         <option selected value="Phòng 1">Phòng 1</option>
                         <option value="Phòng 2">Phòng 2</option>
                     </select>
                 </div>
+
 
 
                 <div className="form-section">
@@ -114,4 +123,4 @@ function DatHen() {
     );
 }
 
-export default DatHen
+export default DatHenNhanVien
