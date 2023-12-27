@@ -173,6 +173,8 @@ ON LichNgay(IDNhaSi);
 CREATE NONCLUSTERED INDEX IX_LichNgay_Ngay
 ON LichNgay (Ngay);
 
+REATE NONCLUSTERED INDEX IX_CuocHen_IDBenhNhan
+ON CuocHen(IDBenhNhan);
 --store procedure
 --Duc
 
@@ -230,4 +232,26 @@ BEGIN
     WHERE IDKeHoachDieuTri IN (SELECT IDKeHoachDieuTri FROM KeHoachDieuTri WHERE IDBenhNhan = @IDBenhNhan);
 END
 
+--lấy danh sách bệnh nhân trong 1 ngày
+CREATE PROCEDURE sp_GetPatientsByDoctorAndDateRange
+    @IDNhaSi int,
+    @StartDate date,
+    @EndDate date
+AS
+BEGIN
+    SELECT DISTINCT U.*
+    FROM UserTable U
+    INNER JOIN CuocHen CH ON U.IDUser = CH.IDBenhNhan
+    WHERE CH.IDNhaSi = @IDNhaSi AND CH.ngayHen BETWEEN @StartDate AND @EndDate;
+END
 
+--Cập Nhật Tình Trạng Cuộc Hẹn
+CREATE PROCEDURE sp_UpdateAppointmentStatus
+    @IDCuocHen int,
+    @tinhTrang nvarchar(15)
+AS
+BEGIN
+    UPDATE CuocHen
+    SET tinhTrang = @tinhTrang
+    WHERE IDCuocHen = @IDCuocHen;
+END
