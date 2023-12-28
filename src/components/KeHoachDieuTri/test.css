@@ -1,0 +1,75 @@
+/* style.css */
+
+.khdt-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.khdt-row {
+    margin-bottom: 20px;
+}
+
+.khdt-card {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.khdt-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.khdt-card.expanded {
+    background-color: #f0f8ff;
+    /* Màu xanh dương cho trạng thái kế hoạch */
+}
+
+.khdt-card.completed.expanded {
+    background-color: #7fff00;
+    /* Màu xanh lá cho trạng thái đã hoàn thành */
+}
+
+.khdt-card.cancelled.expanded {
+    background-color: #ffd700;
+    /* Màu vàng cho trạng thái đã hủy */
+}
+
+.khdt-card-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.khdt-card-details {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.khdt-card-details p {
+    margin: 5px 0;
+}
+
+.khdt-card-details ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.khdt-card-details li {
+    margin-bottom: 5px;
+}
+
+.khdt-card-details li:nth-child(odd) {
+    color: #007bff;
+    /* Màu xanh dương cho răng lẻ */
+}
+
+.khdt-card-details li:nth-child(even) {
+    color: #ff4400bb;
+    /* Màu cam cho răng chẵn */
+}

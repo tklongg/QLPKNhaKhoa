@@ -4,14 +4,17 @@ import { getDentistAppointmentByDate } from '@/util/dentist'
 export async function GET(request) {
     // const result = await db.raw('SELECT 1+1 as result')
     try {
-        const searchParams = request.nextUrl.searchParams
-        const date = searchParams.get('date')
-        const dentistId = searchParams.get('dentistId')
+        const {
+            query: { date, IDNhaSi },
+            method,
+        } = request;
+        // const date = searchParams.get('date')
+        // const dentistId = searchParams.get('IDNhaSi')
         // const { date, dentistId } = await request.json()
-        if (!date || !dentistId) {
+        if (!date || !IDNhaSi) {
             throw new Error('Invalid input data');
         }
-        const result = await getDentistAppointmentByDate(date, dentistId)
+        const result = await getDentistAppointmentByDate(date, IDNhaSi)
         if (!Array.isArray(result)) {
             throw new Error('Unexpected result format');
         }

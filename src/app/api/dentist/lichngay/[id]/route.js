@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
             query: { date },
             method,
         } = request;
-        const dentistId = params.id
+        const dentistId = request.nextUrl.searchParams.get("id")
         if (!date || !dentistId) {
             throw new Error('Invalid input data');
         }

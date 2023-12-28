@@ -5,9 +5,9 @@ import React, { useEffect } from 'react';
 
 const EmployeePage = () => {
     const router = useRouter()
-    useEffect(() => {
-        router.push('/nhanvien/appointments');
-    }, [router]);
+    // useEffect(() => {
+    //     router.push('/nhanvien/appointments');
+    // }, [router]);
 
     return (
 

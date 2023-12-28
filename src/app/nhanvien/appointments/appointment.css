@@ -82,6 +82,9 @@ button:hover {
 .filter-section label {
     margin-right: 5px;
 }
+.filter-section p {
+    margin-right: 5px;
+}
 
 .filter-section input,
 .filter-section select,

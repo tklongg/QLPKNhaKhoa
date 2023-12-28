@@ -4,12 +4,14 @@ import Link from 'next/link';
 import SidebarItem from './SidebarItem';
 import './EmployeeSidebar.css'; // Import CSS module for styling
 const arr = ["Cuộc hẹn", "Nha sĩ", "Bệnh nhân"]
+import { useSearchParams } from 'next/navigation';
 const sidebarItems = [
     { link: '/nhanvien/appointments', text: 'Cuộc hẹn' },
     { link: '/nhanvien/dentists', text: 'Nha sĩ' },
     { link: '/nhanvien/patients', text: 'Bệnh nhân' },
 ];
 const EmployeeSidebar = () => {
+
     const [chosen, setChosen] = useState(0);
 
     const handleSelect = (index) => {
