@@ -1,8 +1,27 @@
 import { db } from './db'
 
-export const getUser = async (data) => {
-    if (data.phone) {
-
+export const getUserById = async (id) => {
+    try {
+        const user = await db("UserTable").where("IDUser", id)
+        if (user.length > 0) {
+            return user
+        }
+        else return null
+    } catch (error) {
+        console.log("lỗi tìm kiếm user", error)
+        return null
+    }
+}
+export const getUserByPhone = async (phone) => {
+    try {
+        const user = await db("UserTable").where("soDienThoai", phone)
+        if (user) {
+            return user
+        }
+        else return null
+    } catch (error) {
+        console.log("lỗi tìm kiếm user bằng đt", error)
+        return null
     }
 }
 
@@ -36,4 +55,41 @@ export const updateUser = async (id, data) => {
     } catch (error) {
         console.log('User updated not successed');
     }
+}
+
+
+//lay thon tin chi tiet user theo id
+export const getUserDetailById = async (id) => {
+    try {
+        const userID = id; // Thay đổi giá trị này thành ID người dùng mong muốn
+        console.log("🚀 ~ file: user.js:65 ~ getUserDetailById ~ userID:", userID)
+
+    const query = `
+    SELECT
+        U.IDUser,
+        U.ten,
+        U.soDienThoai,
+        U.gioiTinh,
+        SUM(KDT.chiPhi) AS tongTienDieuTri,
+        COALESCE(SUM(TT.tienTra), 0) AS tongTienThanhToan,
+        HSB.thongTinTongQuan
+    FROM UserTable U
+    LEFT JOIN KeHoachDieuTri KDT ON U.IDUser = KDT.IDBenhNhan
+    LEFT JOIN ThanhToan TT ON KDT.IDKeHoachDieuTri = TT.IDKeHoachDieuTri
+    LEFT JOIN HoSoBenhNhan HSB ON U.IDUser = HSB.IDBenhNhan
+    WHERE U.IDUser = ?
+    GROUP BY
+        U.IDUser,
+        U.ten,
+        U.soDienThoai,
+        U.gioiTinh,
+        HSB.thongTinTongQuan
+    `;
+
+    const result = await  db.raw(query, [userID])
+    return result;
+        } catch (error) {
+            console.log("lỗi tìm kiếm user", error)
+            return null
+        }
 }

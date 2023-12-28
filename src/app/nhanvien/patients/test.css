@@ -1,6 +1,5 @@
-/* patients.css */
 .title-wrap {
-    font-size: 22px;
+    font-size: 24px;
     height: 60px;
     width: 100%;
     border: 1px solid #e0e0e0;
@@ -10,33 +9,31 @@
 }
 
 .title-wrap .page-title {
-    padding-left: 2em;
+    padding-left: 1em;
 }
 
 .input-patient {
     display: flex;
     justify-content: center;
-    margin: 24px;
+    margin: 24px 0;
 }
 
 .patient-wrap {
     margin: 24px;
 }
 
-.patient-wrap .wrap-title {
+.wrap-title {
     text-align: center;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
     margin-bottom: 3%;
-
     margin-top: 3%;
 }
 
 .patient-card {
-    width: 90%;
+    width: 80%;
     border: 1px solid #ddd;
     padding: 15px;
-    height: 30px;
     border-radius: 8px;
     transition: box-shadow 0.3s;
     margin: 0 auto;
@@ -56,14 +53,14 @@
 
 .patient-info p {
     margin: 0;
+    font-size: 16px;
 }
 
-.patient-info h2 {
+.patient-info strong {
     font-size: 18px;
-    margin-bottom: 5px;
 }
-a {
+a{
     color: inherit;
-    /* blue colors for links too */
-    text-decoration: inherit;
+        /* blue colors for links too */
+        text-decoration: inherit;
 }

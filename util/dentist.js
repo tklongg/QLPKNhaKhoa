@@ -68,3 +68,19 @@ export const getDentistFreeTime = async (date, dentistId) => {
         throw error;
     }
 };
+
+
+
+export const getAllDentistIds = async () => {
+    try {
+        const dentistIds = await db('UserTable')
+            .where({ 'userType': 'Nhasi' })
+            .pluck('IDUser');
+
+        return dentistIds;
+    } catch (error) {
+        console.error('Error getting all dentist IDs:', error);
+        throw error;
+    }
+};
+

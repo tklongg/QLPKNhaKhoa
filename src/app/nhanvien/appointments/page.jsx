@@ -90,10 +90,6 @@ const Appointments = () => {
         setFilteredAppointments(filteredAppointments);
     };
 
-    const handleViewDetails = (appointment) => {
-        setSelectedAppointment(appointment);
-    };
-
     useEffect(() => {
         handleFilter();
     }, [userData, filterPatientName, filterRoom, filterByDoctor]);
@@ -107,14 +103,14 @@ const Appointments = () => {
                 </div>
             </div>
             <div className="filter-section">
-                <label>Tên Bệnh Nhân:</label>
+                <p>Tên Bệnh Nhân:</p>
                 <input
                     type="text"
                     value={filterPatientName}
                     onChange={(e) => setFilterPatientName(e.target.value)}
                 />
 
-                <label>Phòng Khám:</label>
+                <p>Phòng Khám:</p>
                 <select
                     value={filterRoom}
                     onChange={(e) => setFilterRoom(e.target.value)}
@@ -127,17 +123,16 @@ const Appointments = () => {
                 </select>
 
                 {userData.userType === "Dentist" && (
-                    <label>
+                    <div>
                         <input
                             type="checkbox"
                             checked={filterByDoctor}
                             onChange={() => setFilterByDoctor(!filterByDoctor)}
                         />
                         Của bạn
-                    </label>
+                    </div>
                 )}
 
-                <button onClick={handleFilter}>Lọc</button>
             </div>
             <div className='appointments-container'>
 
@@ -171,12 +166,12 @@ const Appointments = () => {
                                         <td>{appointment.tenPhongKham}</td>
                                         <td>{appointment.tinhTrang}</td>
                                         <td>
-                                            <button onClick={() => handleEdit(appointment.IDCuocHen)}>
+                                            {userData.userType != "Dentist" && <button onClick={() => handleEdit(appointment.IDCuocHen)}>
                                                 Sửa
-                                            </button>
-                                            <button onClick={() => handleDelete(appointment.IDCuocHen)}>
+                                            </button>}
+                                            {userData.userType != "Dentist" && <button onClick={() => handleDelete(appointment.IDCuocHen)}>
                                                 Xóa
-                                            </button>
+                                            </button>}
                                             <button onClick={() => handleToggleDetails(appointment)}>
                                                 Xem chi tiết
                                             </button>

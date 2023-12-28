@@ -70,7 +70,10 @@ create table KeHoachDieuTri (
 	IDDanhMuc int,
 	IDLieuTrinh int,
 	moTa nvarchar(max),
-	chiPhi decimal
+	chiPhi decimal,
+	trangThai nvarchar(20), --kế hoạch (màu xanh dương), đã hoàn thành (màu xanh lá),
+--đã hủy (màu vàng). 
+	ngayDieuTri date,
 )
 
 create table ChongChiDinh (

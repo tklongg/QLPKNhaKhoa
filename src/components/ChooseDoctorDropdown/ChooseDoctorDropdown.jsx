@@ -2,10 +2,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CustomDropdown.css'; // Tên file CSS của custom dropdown
 
-const CustomDropdown = ({ options, onSelect, type, excluded }) => {
+const CustomDropdown = ({ selected, options, onSelect, type, excluded }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(selected || null);
     const dropdownRef = useRef(null);
 
     const handleToggleDropdown = () => {
@@ -17,6 +17,7 @@ const CustomDropdown = ({ options, onSelect, type, excluded }) => {
         setSelectedOption(option);
         onSelect(option);
         setIsOpen(false);
+        console.log(option)
     };
 
     const handleSearchTermChange = (e) => {
