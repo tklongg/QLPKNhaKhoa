@@ -3,10 +3,10 @@ import { getUserById } from '@/util/user';
 
 //get dentist 
 export async function GET(request) {
-    // const result = await db.raw('SELECT 1+1 as result')
+    // const result = await db.raw('SELECT 1+1 as result')               
     try {
         const {
-            query: { IDUser },
+            query: { IDUser },                                           
             method,
         } = request;
         const result = await getUserById(IDUser)
