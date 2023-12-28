@@ -56,3 +56,40 @@ export const updateUser = async (id, data) => {
         console.log('User updated not successed');
     }
 }
+
+
+//lay thon tin chi tiet user theo id
+export const getUserDetailById = async (id) => {
+    try {
+        const userID = id; // Thay đổi giá trị này thành ID người dùng mong muốn
+        console.log("🚀 ~ file: user.js:65 ~ getUserDetailById ~ userID:", userID)
+
+    const query = `
+    SELECT
+        U.IDUser,
+        U.ten,
+        U.soDienThoai,
+        U.gioiTinh,
+        SUM(KDT.chiPhi) AS tongTienDieuTri,
+        COALESCE(SUM(TT.tienTra), 0) AS tongTienThanhToan,
+        HSB.thongTinTongQuan
+    FROM UserTable U
+    LEFT JOIN KeHoachDieuTri KDT ON U.IDUser = KDT.IDBenhNhan
+    LEFT JOIN ThanhToan TT ON KDT.IDKeHoachDieuTri = TT.IDKeHoachDieuTri
+    LEFT JOIN HoSoBenhNhan HSB ON U.IDUser = HSB.IDBenhNhan
+    WHERE U.IDUser = ?
+    GROUP BY
+        U.IDUser,
+        U.ten,
+        U.soDienThoai,
+        U.gioiTinh,
+        HSB.thongTinTongQuan
+    `;
+
+    const result = await  db.raw(query, [userID])
+    return result;
+        } catch (error) {
+            console.log("lỗi tìm kiếm user", error)
+            return null
+        }
+}
