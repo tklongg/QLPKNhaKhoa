@@ -4,7 +4,7 @@ const connection = {
     client: 'mssql',
     connection: {
         user: process.env.DB_USER || 'sa',
-        password: process.env.DB_PWD || '123',
+        password: process.env.DB_PWD || 'Sungp2708@',
         server: process.env.DB_HOST || '127.0.0.1',
         database: process.env.DB_NAME || 'QuanLyNhaKhoa',
         port: parseInt(process.env.DB_PORT) || 1433,
