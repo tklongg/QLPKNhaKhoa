@@ -23,3 +23,23 @@ export async function GET(request) {
     }
 
 }
+
+export async function POST(request) {
+    try {
+        const requestData = await request.json();
+        const appointmentId = requestData.appointmentId;
+        const appointmentData = requestData.appointmentData;
+
+        if (!appointmentId || !appointmentData) {
+            throw new Error('Invalid input data for update');
+        }
+
+        // Call the update function
+        const updatedResult = await updateAppointment(appointmentId, appointmentData);
+
+        return NextResponse.json(updatedResult, { status: 200 });
+    } catch (error) {
+        console.error('Error in POST request:', error);
+        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    }
+}
