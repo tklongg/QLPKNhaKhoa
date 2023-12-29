@@ -117,3 +117,7 @@ export const getAllAppointments = async () => {
         return []
     }
 }
+
+export const updateCuocHen = () => {
+
+}

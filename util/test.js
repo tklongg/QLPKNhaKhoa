@@ -75,6 +75,9 @@ export const themKeHoachDieuTri = async ({ ngayDieuTri, IDBenhNhan, IDNhaSi, IDT
         }))
         console.log(rangArr)
         await db("KeHoachDieuTri_Rang").insert(rangArr)
+        await db("ThanhToan").insert({
+            IDKeHoachDieuTri: insertedID,
+        })
         return {
             IDKeHoachDieuTri: insertedID,
             ngayDieuTri, IDBenhNhan, IDNhaSi, IDTroKham, IDDanhMuc, IDLieuTrinh, rang

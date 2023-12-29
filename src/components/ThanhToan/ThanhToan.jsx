@@ -2,7 +2,9 @@ import axios from '@/util/axios'
 import { useParams } from 'next/navigation'
 import Pagination from '../Pagination/Pagination';
 import React, { useEffect, useState } from 'react'
+
 import './style.css'
+import { toast } from 'react-toastify';
 const thanhtoanArr = [
     {
         IDThanhToan: 1,
@@ -115,6 +117,21 @@ const ThanhToanCard = ({ thanhToan }) => {
     const handleToggle = () => {
         setIsExpanded((prev) => !prev);
     };
+    const handleThanhToan = async (IDThanhToan) => {
+        // const inputMoney = prompt("Nhập số tiền trả")
+        console.log("nè nha", IDThanhToan)
+        var userInput = prompt('Nhập số:');
+        console.log(userInput)
+        if (userInput) {
+            // Gọi hàm xử lý với số nhập vào
+            const res = await axios.post(`/api/thanhtoan/${IDThanhToan}`, {
+                tienTra: userInput.toString(),
+            })
+
+
+
+        }
+    }
     return (
         <div className={`thanh-toan-card ${isExpanded ? 'expanded' : ''}`}>
             <div className="thanhtoan-header" onClick={handleToggle}>
@@ -131,8 +148,10 @@ const ThanhToanCard = ({ thanhToan }) => {
                     <p><strong>Loại Thanh Toán:</strong> {thanhToan.loaiThanhToan}</p>
                     <p><strong>Tiền Trả:</strong> {thanhToan.tienTra}</p>
                     <p><strong>Tiền Thối:</strong> {thanhToan.tienThoi}</p>
+                    {
+                        thanhToan.tenTra == null && <button className="btn-thanh-toan" onClick={() => handleThanhToan(thanhToan.IDThanhToan)}>Thanh Toán</button>
+                    }
 
-                    <button className="btn-thanh-toan" onClick={() => alert('Xử lý thanh toán')}>Thanh Toán</button>
                 </div>
             )}
         </div>
@@ -141,7 +160,7 @@ const ThanhToanCard = ({ thanhToan }) => {
 
 const ThanhToan = () => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [thanhToan, setThanhToan] = useState(thanhtoanArr)
+    const [thanhToan, setThanhToan] = useState([])
     const [searchTerm, setSearchTerm] = useState("")
     const params = useParams()
     const userId = params.id
@@ -149,10 +168,19 @@ const ThanhToan = () => {
     const handleSearchChange = (e) => {
         setSearchTerm(e.target.value);
     };
+    useEffect(() => {
+        const fetchThanhToan = async () => {
+            const { data } = await axios.get(`/api/thanhtoan/${userId}`)
+            setThanhToan(data)
+
+        }
+        fetchThanhToan()
+    }, [])
+
     const startIndex = (currentPage - 1) * 5;
     const endIndex = startIndex + 5;
-    const filtered = thanhToan.filter((thanhToan) =>
-        thanhToan.IDKeHoachDieuTri.toString().includes(searchTerm)
+    const filtered = thanhToan.filter((tt) =>
+        tt.IDKeHoachDieuTri.toString().includes(searchTerm)
     )
     const currentTT = filtered.slice(startIndex, endIndex)
     const handlePageChange = (newPage) => {
