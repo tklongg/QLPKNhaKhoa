@@ -1,0 +1,70 @@
+.ghichu-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ghichu {
+    margin-top: 4%;
+    width: 90%;
+    height: 100%;
+    border: 1px solid #dadada;
+    border-radius: 12px;
+    padding:20px;
+    padding: 10px;
+}
+
+.chong-chi-dinh-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+    /* Canh giữa các phần tử */
+}
+
+
+.chong-chi-dinh-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    width: 200px;
+    text-align: center;
+    /* Căn giữa nội dung trong thẻ */
+}
+
+.chong-chi-dinh-card:hover {
+    transform: scale(1.05);
+        transition: border-color 0.3s;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chong-chi-dinh-text{
+    margin-top: 3%;
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 3%;
+}
+.ghichu p {
+    padding-left: 5%;
+    line-height: 3em;
+}
+
+.ghichu p:first-child {
+    width: 100%;
+    font-weight: bold;
+        font-size: 22px;
+    text-align: center;
+    padding-left: 0;
+}
+
+
+p.text-line {
+    height: auto;
+    width: auto;
+}
+
+.chongchidinh-search-container {
+    margin-bottom: 3%;
+}

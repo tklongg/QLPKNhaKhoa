@@ -4,6 +4,9 @@ import { useParams } from 'next/navigation'
 import Tab from '@/src/components/Tab/Tab'
 import Kehoachdieutri from '@/src/components/KeHoachDieuTri/Kehoachdieutri'
 import './style.css'
+import ThanhToan from '@/src/components/ThanhToan/ThanhToan'
+import GhiChu from '@/src/components/GhiChu/GhiChu'
+import ThongTinCaNhan from '@/src/components/ThongTinCaNhan/ThongTinCaNhan'
 const tabs = ['Thông tin cơ bản', 'Kế hoạch điều trị', 'Ghi chú', 'Thanh toán']
 const page = () => {
     const [chosenTab, setChosenTab] = useState(0);
@@ -15,13 +18,13 @@ const page = () => {
     const showTab = () => {
         switch (chosenTab) {
             case 0:
-                return <div>Thông tin cơ bản</div>;
+                return <ThongTinCaNhan />;
             case 1:
                 return <Kehoachdieutri />
             case 2:
-                return <div>Ghi chú</div>;
+                return <GhiChu />
             case 3:
-                return <div>Thanh toán</div>;
+                return <ThanhToan />
             default:
                 return null;
         }

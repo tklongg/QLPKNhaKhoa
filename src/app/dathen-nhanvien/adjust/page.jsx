@@ -4,6 +4,8 @@ import Calendar from '@/src/components/Calender/Calender';
 import { useSearchParams } from 'next/navigation'
 import CustomDropdown from '@/src/components/ChooseDoctorDropdown/ChooseDoctorDropdown';
 import '../dathennhanvien.css'
+import axios from '@/util/axios';
+import { toast } from 'react-toastify';
 
 const doctors = [
     { id: 1, name: 'Sam Smith' },
@@ -17,25 +19,47 @@ const assistants = [
     { id: 3, name: 'Jill Johnson 2' },
     // Add more doctors as needed
 ];
-
+const cache = {}
 function AdjustAppointment() {
     //IDCuocHen, IDUser
     const searchParams = useSearchParams()
-    const IDUser = searchParams.get('IDUser')
-    const IDNhaSi = searchParams.get('IDNhaSi')
-    const IDTroKham = searchParams.get('IDTroKham')
-    const date = searchParams.get('date')
-    const room = searchParams.get('room')
+    const params = searchParams.get('appointment')
+    const appointmentData = JSON.parse(params);
+    console.log(appointmentData)
+    const IDUser = appointmentData["IDUser"]
+    const IDNhaSi = appointmentData["IDNhaSi"]
+    const IDCuocHen = appointmentData.IDCuocHen
+    const IDTroKham = appointmentData.IDTroKham
+    const date = appointmentData.ngayHen
+    const room = appointmentData.IDPhong
+    const tg = appointmentData.thoiGian
+    const stat = appointmentData.tinhTrang
+
     // const time = searchParams.get('time')
     // console.log(searchParams)
     //URLSearchParams { 'IDUser' => '1', 'IDCuocHen' => '1' }
-    const [selectedDate, setSelectedDate] = useState(room);
-    const [selectedTime, setSelectedTime] = useState('');
-    const [selectedDoctor, setSelectedDoctor] = useState('');
-    const [selectedRoom, setSelectedRoom] = useState('Phòng 1');
-    const [selectedAssistant, setSelectedAssistant] = useState('');
-
-
+    const [selectedAppointment, setSelectedAppointment] = useState("")
+    const [doctors, setDoctors] = useState([])
+    const [selectedDate, setSelectedDate] = useState(date);
+    const [selectedTime, setSelectedTime] = useState("8:00");
+    const [selectedDoctor, setSelectedDoctor] = useState(IDNhaSi);
+    const [selectedRoom, setSelectedRoom] = useState(room);
+    const [selectedAssistant, setSelectedAssistant] = useState(IDTroKham);
+    const [selectedStatus, setSelectedStatus] = useState(stat)
+    useEffect(() => {
+        const fetchAllDentists = async () => {
+            const { data } = await axios.get('/api/dentist/getalldentist')
+            cache.dentists = data.slice(1, 1000)
+            setDoctors(data.slice(1, 1000))
+        }
+        if (!cache.dentists) {
+            fetchAllDentists()
+        }
+        else {
+            setDoctors(cache.dentists)
+        }
+        setSelectedAppointment(appointmentData.IDCuocHen)
+    }, [])
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -59,7 +83,9 @@ function AdjustAppointment() {
         console.log(assistant)
         // setIsDoctorDropdownOpen(false);
     };
-
+    const handleStatusSelect = (e) => {
+        setSelectedStatus(e.target.value)
+    }
     const handleRoomSelect = (room) => {
         setSelectedRoom(room);
     };
@@ -67,14 +93,31 @@ function AdjustAppointment() {
     const handlePhoneInput = (e) => {
         setPhone(e.target.value)
     }
-    const handleSubmit = () => {
-        // Placeholder logic, replace with actual logic to save appointment
-        console.log('Booking appointment:', phone, selectedDate, selectedRoom, selectedDoctor, selectedAssistant, selectedTime,);
+    const handleSubmit = async () => {
+        const data = {
+            IDCuocHen: selectedAppointment,
+            IDUser: IDUser,
+            IDNhaSi: selectedDoctor,
+            IDTroKham: selectedAssistant,
+            IDPhong: selectedRoom,
+            ngayHen: selectedDate,
+            thoiGian: selectedTime,
+            tinhTrang: selectedStatus
+        }
+        console.log(data)
+        try {
+            const res = await axios.patch(`/api/Cuochen/${selectedAppointment}`, data)
+            alert("Cập nhật thành công")
+        } catch (error) {
+            alert("Cập nhật không thành công")
+            console.log(error)
+        }
+
     };
 
     return (
         <div className="booking-page">
-            <h2>Đặt hẹn </h2>
+            <h2>Sửa cuộc hẹn </h2>
             <div className="form-container">
                 <div className="form-section">
                     <label>Chọn ngày:</label>
@@ -83,9 +126,15 @@ function AdjustAppointment() {
 
                 <div className="form-section">
                     <label>Chọn phòng:</label>
-                    <select value={selectedRoom} onChange={(e) => handleRoomSelect(e.target.value)}>
-                        <option value="Phòng 1">Phòng 1</option>
-                        <option value="Phòng 2">Phòng 2</option>
+
+                    <select
+                        className='select-surfaces'
+                        value={selectedRoom}
+                        onChange={(e) => setSelectedRoom(e.target.value)}
+                    >
+                        {[...Array(300)].map((_, index) => (
+                            <option key={index + 1} value={index + 1}>{`Room ${index + 1}`}</option>
+                        ))}
                     </select>
                 </div>
 
@@ -106,7 +155,7 @@ function AdjustAppointment() {
                     <label>Chọn trợ khám:</label>
                     <CustomDropdown
                         // selected={assistants[1]}
-                        options={assistants}
+                        options={doctors}
                         onSelect={(selectedOption) => handleAssistantSelect(selectedOption)}
                         type="trợ khám"
                         excluded={selectedDoctor}
@@ -115,16 +164,32 @@ function AdjustAppointment() {
 
                 <div className="form-section">
                     <label>Chọn thời gian:</label>
-                    <select onChange={(e) => handleTimeSelect(e.target.value)}>
-                        <option value="8:00 AM">8:00 AM</option>
-                        <option value="9:00 AM">9:00 AM</option>
-                        <option value="10:00 AM">10:00 AM</option>
+                    <select value={selectedTime} onChange={(e) => handleTimeSelect(e.target.value)}>
+                        <option value="8:00">8:00</option>
+                        <option value="9:00">9:00</option>
+                        <option value="10:00">10:00</option>
+                        <option value="11:00">11:00</option>
+                        <option value="12:00">12:00</option>
+                        <option value="13:00">13:00</option>
+                        <option value="14:00">14:00</option>
+                        <option value="15:00">15:00</option>
+                        <option value="16:00">16:00</option>
+                        <option value="17:00">17:00</option>
+                        <option value="18:00">18:00</option>
                         {/* Add more options as needed */}
+                    </select>
+                </div>
+                <div className="form-section">
+                    <label>Chọn tình trạng:</label>
+                    <select value={selectedStatus} onChange={handleStatusSelect}>
+                        <option value="Cuộc hẹn mới">Cuộc hẹn mới</option>
+                        <option value="Tái khám">Tái khám</option>
+
                     </select>
                 </div>
                 <div className='form-section'>
                     <button onClick={handleSubmit}>Sửa</button>
-                    <button onClick={handleSubmit}>Hủy</button>
+                    <button onClick={() => { }}>Hủy</button>
                 </div>
             </div>
         </div>

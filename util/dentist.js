@@ -74,8 +74,9 @@ export const getDentistFreeTime = async (date, dentistId) => {
 export const getAllDentistIds = async () => {
     try {
         const dentistIds = await db('UserTable')
-            .where({ 'userType': 'Nhasi' })
-            .pluck('IDUser');
+            .select('UserTable.IDUser as id', 'UserTable.ten as name')
+            .where({ 'userType': 'Dentist' })
+        // .pluck('IDUser');
 
         return dentistIds;
     } catch (error) {

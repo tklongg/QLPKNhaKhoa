@@ -135,6 +135,10 @@ create table CuocHen (
 	tinhTrang nvarchar(15)
 )
 
+create table Phong (
+	IDPhong int identity(1,1) primary key,
+	tenPhong nvarchar(max)
+)
 
 
 alter table HoSoBenhNhan add constraint FK_HoSoBenhNhan_BenhNhan foreign key (IDBenhNhan) references UserTable(IDUser)
@@ -150,6 +154,7 @@ alter table DonThuoc add constraint FK_DonThuoc_KHDT foreign key (IDKeHoachDieuT
 alter table CuocHen add constraint FK_CuocHen_BenhNhan foreign key (IDBenhNhan) references UserTable(IDUser)
 alter table CuocHen add constraint FK_CuocHen_NhaSi foreign key (IDNhaSi) references UserTable(IDUser)
 alter table CuocHen add constraint FK_CuocHen_TroKham foreign key (IDTroKham) references UserTable(IDUser)
+alter table CuocHen add constraint FK_CuocHen_Phong foreign key (IDPhong) references UserTable(IDUser)
 
 alter table KeHoachDieuTri add constraint FK_KeHoachDieuTri_BenhNhan foreign key (IDBenhNhan) references UserTable(IDUser)
 alter table KeHoachDieuTri add constraint FK_KeHoachDieuTri_NhaSi foreign key (IDNhaSi) references UserTable(IDUser)
@@ -176,7 +181,7 @@ ON LichNgay(IDNhaSi);
 CREATE NONCLUSTERED INDEX IX_LichNgay_Ngay
 ON LichNgay (Ngay);
 
-REATE NONCLUSTERED INDEX IX_CuocHen_IDBenhNhan
+CREATE NONCLUSTERED INDEX IX_CuocHen_IDBenhNhan
 ON CuocHen(IDBenhNhan);
 --store procedure
 --Duc

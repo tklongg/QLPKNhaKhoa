@@ -1,0 +1,12 @@
+
+.root-layout {
+    display: flex;
+    height: 120vh;
+}
+
+.root-layout-content {
+    flex: 1;
+    overflow: auto;
+    /* padding: 20px; */
+    box-sizing: border-box;
+}

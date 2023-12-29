@@ -1,6 +1,7 @@
 // API get treatment plans
 import { NextResponse } from 'next/server';
 import { getAllTreatmentPlansByUserId } from '@/util/plan';
+import { themKeHoachDieuTri } from '@/util/test';
 
 // handle GET request
 export async function GET(request) {
@@ -19,3 +20,5 @@ export async function GET(request) {
         return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
     }
 }
+
+

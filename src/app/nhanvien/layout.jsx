@@ -3,9 +3,10 @@ import { Inter } from 'next/font/google'
 import { createContext, useEffect, useState } from 'react'
 // import { ToastContainer } from 'react-toastify';
 import EmployeeSidebar from '@/src/components/EmployeeSidebar/EmployeeSidebar'
-import styles from './RootLayout.module.css';
+import './style.css';
 import { useRouter } from 'next/navigation';
 import useLocalStorage from '@/src/hooks/useLocalStorage';
+import 'react-toastify/dist/ReactToastify.css';
 const inter = Inter({ subsets: ['latin'] })
 
 
@@ -30,9 +31,10 @@ export default function RootLayout({ children }) {
         // }
     }, [router, userData]);
     return (
-        <div className={`${styles.rootLayout} ${inter.className}`}>
+        <div className='root-layout'>
             <EmployeeSidebar />
-            <div className={styles.content}>{children}</div>
+            <div className='root-layout-content'>{children}</div>
         </div>
+
     )
 }

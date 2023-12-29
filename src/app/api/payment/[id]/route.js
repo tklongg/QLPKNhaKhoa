@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server'
 import { getAllPaymentId, getPaymentById } from '@/util/payment'
 
 // handle GET request
-export async function GET(request) {
+export async function GET(request, { params }) {
     try {
-        const id = request.params.id;
-
+        const id = params.id;
+        console.log(id)
         if (id) {
             // If ID is provided in the URL, get payment by ID
             const result = await getPaymentById(id);

@@ -26,3 +26,16 @@ export const convertFromSqlDate = (sqlDateString) => {
     return formattedDate;
 }
 
+export const convertFromSqlTime = (sqlTimeString) => {
+    const sqlDate = new Date(sqlTimeString);
+
+    if (isNaN(sqlDate.getTime())) {
+        console.error('Giờ không hợp lệ.');
+        return null;
+    }
+
+    const formattedTime = sqlDate.toTimeString().slice(0, 5);
+
+    return formattedTime;
+}
+

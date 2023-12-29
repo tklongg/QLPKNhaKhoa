@@ -27,13 +27,15 @@ const Calendar = ({ selectedDate, handleDateClick }) => {
     }
     const daysInMonth = getDaysInMonth(currentMonth);
 
-    const handlePrevMonth = () => {
+    const handlePrevMonth = (e) => {
+        e.preventDefault()
         const prevMonth = new Date(currentMonth);
         prevMonth.setMonth(prevMonth.getMonth() - 1);
         setCurrentMonth(prevMonth);
     };
 
-    const handleNextMonth = () => {
+    const handleNextMonth = (e) => {
+        e.preventDefault()
         const nextMonth = new Date(currentMonth);
         nextMonth.setMonth(nextMonth.getMonth() + 1);
         setCurrentMonth(nextMonth);

@@ -1,5 +1,24 @@
 import { db } from './db'
 
+export const getAllUsers = async () => {
+    try {
+        const users = await db("UserTable").where("userType", "Patient").select()
+        return users
+    } catch (error) {
+        console.log("lỗi tìm kiếm user", error)
+        return []
+    }
+}
+export const getAllDentists = async () => {
+    try {
+        const users = await db("UserTable").where("userType", "Dentist").select()
+        return users
+    } catch (error) {
+        console.log("lỗi tìm kiếm user", error)
+        return []
+    }
+}
+
 export const getUserById = async (id) => {
     try {
         const user = await db("UserTable").where("IDUser", id)
@@ -64,7 +83,7 @@ export const getUserDetailById = async (id) => {
         const userID = id; // Thay đổi giá trị này thành ID người dùng mong muốn
         console.log("🚀 ~ file: user.js:65 ~ getUserDetailById ~ userID:", userID)
 
-    const query = `
+        const query = `
     SELECT
         U.IDUser,
         U.ten,
@@ -86,10 +105,27 @@ export const getUserDetailById = async (id) => {
         HSB.thongTinTongQuan
     `;
 
-    const result = await  db.raw(query, [userID])
-    return result;
-        } catch (error) {
-            console.log("lỗi tìm kiếm user", error)
-            return null
+        const result = await db.raw(query, [userID])
+        return result;
+    } catch (error) {
+        console.log("lỗi tìm kiếm user", error)
+        return null
+    }
+}
+
+export const addUserByPhone = async (phone) => {
+    try {
+        const exists = await db("UserTable").where({ "soDienThoai": phone })
+        if (!exists.length) {
+            const newUser = await db("UserTable").insert({ soDienThoai: phone })
+            return newUser[0]
         }
+        return exists[0]
+    } catch (error) {
+        throw new Error(error)
+    }
+}
+
+const updateNewUser = async ({ gioiTinh, ten, ngaySinh, email }) => {
+
 }

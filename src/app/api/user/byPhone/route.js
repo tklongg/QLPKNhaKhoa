@@ -8,7 +8,8 @@ export async function GET(request) {
         const {
             query: { phone },
             method,
-        } = request;
+        } = request.params;
+        console.log(phone)
         const result = await getUserByPhone(phone)
         if (!Array.isArray(result)) {
             throw new Error('Unexpected result format');

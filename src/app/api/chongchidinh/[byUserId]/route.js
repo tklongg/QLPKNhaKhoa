@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { db } from '@/util/db'
-import { getChongChiDinhByUserIdz } from '@/util/thuoc'
+import { getChongChiDinhByUserId } from '@/util/thuoc'
 
-export async function GET(request, {params}) {
+export async function GET(request, { params }) {
     console.log("====", request.params)
     console.log("====", params)
     const userId = params.byUserId

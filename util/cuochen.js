@@ -1,3 +1,4 @@
+import { convertToSqlDate, convertFromSqlDate, convertFromSqlTime } from './date';
 import { db } from './db'
 
 
@@ -56,3 +57,63 @@ export const updateAppointment = async (appointmentId, appointmentData) => {
         throw error;
     }
 };
+
+export const getAppointmentByDate = async (date) => {
+    try {
+        const dateSql = convertToSqlDate(date)
+        const result = await db("CuocHen").join('UserTable as BenhNhan', 'CuocHen.IDBenhNhan', '=', 'BenhNhan.IDUser')
+            .join('UserTable as BacSi', 'CuocHen.IDNhaSi', '=', 'BacSi.IDUser')
+            .leftJoin('UserTable as TroKham', 'CuocHen.IDTroKham', '=', 'TroKham.IDUser')
+            .leftJoin('Phong', 'CuocHen.IDPhong', '=', 'Phong.IDPhong')
+            .select(
+                'CuocHen.IDCuocHen',
+                'CuocHen.IDBenhNhan',
+                'CuocHen.IDNhaSi',
+                'CuocHen.IDTroKham',
+                'CuocHen.thoiGian',
+                'CuocHen.ngayHen',
+                'CuocHen.soDienThoai',
+                'CuocHen.IDPhong',
+                'CuocHen.tinhTrang',
+                'BenhNhan.ten as tenUser',
+                'BacSi.ten as tenBacSi',
+                'TroKham.ten as tenTroKham',
+                'Phong.tenPhong as tenPhongKham'
+            )
+            .where('CuocHen.ngayHen', '=', dateSql);
+        return result
+    } catch (error) {
+        return []
+    }
+}
+export const getAllAppointments = async () => {
+    try {
+        const result = await db("CuocHen").join('UserTable as BenhNhan', 'CuocHen.IDBenhNhan', '=', 'BenhNhan.IDUser')
+            .join('UserTable as BacSi', 'CuocHen.IDNhaSi', '=', 'BacSi.IDUser')
+            .leftJoin('UserTable as TroKham', 'CuocHen.IDTroKham', '=', 'TroKham.IDUser')
+            .leftJoin('Phong', 'CuocHen.IDPhong', '=', 'Phong.IDPhong')
+            .select(
+                'CuocHen.IDCuocHen',
+                'CuocHen.IDBenhNhan',
+                'CuocHen.IDNhaSi',
+                'CuocHen.IDTroKham',
+                'CuocHen.thoiGian',
+                'CuocHen.ngayHen',
+                'CuocHen.soDienThoai',
+                'CuocHen.IDPhong',
+                'CuocHen.tinhTrang',
+                'BenhNhan.ten as tenUser',
+                'BacSi.ten as tenBacSi',
+                'TroKham.ten as tenTroKham',
+                'Phong.tenPhong as tenPhongKham'
+            ).limit(100).offset(0)
+        const appointments = result.map((appointment) => ({
+            ...appointment,
+            ngayHen: convertFromSqlDate(appointment.ngayHen),
+            thoiGian: convertFromSqlTime(appointment.thoiGian),
+        }));
+        return appointments
+    } catch (error) {
+        return []
+    }
+}

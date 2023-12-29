@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
           </div>
           <ToastContainer
             pauseOnHover={false}
-            autoClose={1500}
+            autoClose={150000}
             pauseOnFocusLoss={false}
           />
         </body>

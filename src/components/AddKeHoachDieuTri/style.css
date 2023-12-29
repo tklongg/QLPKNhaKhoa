@@ -1,0 +1,148 @@
+/* style.css */
+
+.add-treatment-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.add-treatment-container h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.add-treatment-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-treatment-container label {
+    margin: 10px 0;
+}
+
+.add-treatment-container select,
+.add-treatment-container input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.add-treatment-container button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-treatment-container button:hover {
+    background-color: #0056b3;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-section label,
+.form-section p,
+.form-section-doctor label {
+    font-size: 1.17em;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-section input,
+.form-section select,
+.form-section-doctor select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 17px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input:focus,
+.form-section select:focus {
+    border-color: #3c9ae7;
+}
+
+.tooth {
+    /* padding-left: 2%; */
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: 1px solid #dadada;
+    border-radius: 5px;
+    height: 2.5em
+}
+
+.teeth-card {
+    cursor: pointer;
+    display: flex;
+    margin-left: 10px;
+    height: 100%;
+    align-items: center;
+    /* background-color: #dadada; */
+    width: auto;
+}
+
+.teeth-card .inner {
+    background-color: #dadada;
+    padding: 2px;
+}
+
+.tooth-select {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.tooth-select select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 17px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.tooth-select .section {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 20em;
+}
+
+.select-surfaces {
+    width: 50%;
+}
+
+.tooth-select .tooth-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}

@@ -1,15 +1,18 @@
-import {db} from './db'
+import { db } from './db'
 
 //các table lien quan den thuoc viet o file nay
-
+export const getAllThuoc = async () => {
+    const result = await db("Thuoc").select('*').limit(1000).offset(0)
+    return result
+}
 //lay tat ca record chong chi dinh theo benh nhan
 export const getChongChiDinhByUserId = async (userId) => {
     try {
         const chongChiDinh = await db('ChongChiDinh')
-            .select('ChongChiDinh.IDBenhNhan', 'Thuoc.IDThuoc', 'Thuoc.TenThuoc')
+            .select('ChongChiDinh.IDBenhNhan', 'Thuoc.IDThuoc', 'Thuoc.tenThuoc')
             .where('IDBenhNhan', userId)
             .innerJoin('Thuoc', 'ChongChiDinh.IDThuoc', 'Thuoc.IDThuoc')
-            
+
 
         console.log("🚀 ~ file: thuoc.js:16 ~ getChongChiDinhByUserId ~ chongChiDinh:", chongChiDinh)
         return chongChiDinh;

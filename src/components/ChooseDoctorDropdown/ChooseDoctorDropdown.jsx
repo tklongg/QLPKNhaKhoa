@@ -47,7 +47,7 @@ const CustomDropdown = ({ selected, options, onSelect, type, excluded }) => {
     return (
         <div className="custom-dropdown" ref={dropdownRef}>
             <div className="selected-option" onClick={handleToggleDropdown}>
-                {selectedOption ? selectedOption.name : `Chọn ${type}...`}
+                {selectedOption ? selectedOption["name"] : `Chọn ${type}...`}
             </div>
             {isOpen && (
                 <div className="dropdown-options">
@@ -59,8 +59,8 @@ const CustomDropdown = ({ selected, options, onSelect, type, excluded }) => {
                     />
                     <ul>
                         {filteredOptions.map((option) => (
-                            <li key={option.id} onClick={() => handleSelectOption(option)}>
-                                {option.name}
+                            <li key={option["id"]} onClick={() => handleSelectOption(option)}>
+                                {option["name"]}
                             </li>
                         ))}
                     </ul>

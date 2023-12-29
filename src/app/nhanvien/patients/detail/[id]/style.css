@@ -86,11 +86,15 @@
 
 .tab-content {
     margin: 2%;
-    margin-top: 8%;
+    margin-top: 3%;
     width: 96%;
-    border: 1px solid red;
-    height: 100%;
+    
+    border: 1px solid #dadada;
+    border-radius: 15px;
+    height: auto;
     display: flex;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
     justify-content: center;
     
 }
