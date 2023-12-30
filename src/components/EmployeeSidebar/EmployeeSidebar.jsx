@@ -1,4 +1,5 @@
 // EmployeeSidebar.jsx
+"use client"
 import React, { useState } from 'react';
 import Link from 'next/link';
 import SidebarItem from './SidebarItem';
@@ -6,6 +7,7 @@ import './EmployeeSidebar.css'; // Import CSS module for styling
 const arr = ["Cuộc hẹn", "Nha sĩ", "Bệnh nhân"]
 import { useSearchParams } from 'next/navigation';
 import useLocalStorage from '@/src/hooks/useLocalStorage';
+import { toast } from 'react-toastify';
 const sidebarItems = [
     { link: '/dashboard/appointments', text: 'Cuộc hẹn' },
     { link: '/dashboard/dentists', text: 'Nha sĩ' },
@@ -19,6 +21,10 @@ const EmployeeSidebar = () => {
     const handleSelect = (index) => {
         setChosen(index);
     };
+    const handleLogout = () => {
+        setUserData("")
+        toast.info("ok logout")
+    }
     return (
         <div className='sidebar'>
             <div className='sidebar-title-wrap'>
@@ -55,7 +61,7 @@ const EmployeeSidebar = () => {
                         </div>
                     </li> */}
                     {
-                        userData.userType != "Patient" && <SidebarItem
+                        (userData.userType != "Patient" && userData.userType != "Dentist") && <SidebarItem
                             key={0}
                             link={sidebarItems[0].link}
                             text={sidebarItems[0].text}
@@ -73,7 +79,7 @@ const EmployeeSidebar = () => {
                         />
                     }
                     {
-                        <SidebarItem
+                        userData.userType != "Patient" && <SidebarItem
                             key={2}
                             link={sidebarItems[2].link}
                             text={sidebarItems[2].text}
@@ -90,6 +96,19 @@ const EmployeeSidebar = () => {
                             onSelect={() => handleSelect(3)}
                         />
                     }
+                    {
+                        <SidebarItem
+                            key={4}
+                            link={userData.userType === "Patient" ? `/dashboard/patients/detail/${userData.id}` : userData.userType === "Dentist" ? `/dashboard/dentists/detail/${userData.id}` : userData.userType === "Employee" ? `/dashboard/employees/detail/${user}` : `/dashboard/employees`}
+                            text={"Thông tin cá nhân"}
+
+                        />
+                    }
+                    <SidebarItem
+                        text={"Đăng xuất"}
+                        link={"/login"}
+                        onSelect={handleLogout}
+                    />
                     {/* {sidebarItems.map((item, index) => (
                         <SidebarItem
                             key={index}

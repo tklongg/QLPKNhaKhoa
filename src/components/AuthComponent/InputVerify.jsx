@@ -24,12 +24,12 @@ const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
     const handleNextStep = async (event) => {
         event.preventDefault();
         const strcode = getCode();
-        confirmationResult.confirm(strcode).then((result) => {
+        confirmationResult.confirm(strcode).then(async (result) => {
             // User signed in successfully.
             // const user = result.user;
             console.log("okê con dê")
             try {
-                const { data } = axios.get(`/api/sodienthoai/${phone}`)
+                const { data } = await axios.get(`/api/sodienthoai/${phone}`)
                 if (data.error) {
                     setStep(stepArr[2])
                 }
