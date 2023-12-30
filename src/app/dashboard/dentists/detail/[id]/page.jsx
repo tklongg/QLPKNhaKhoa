@@ -3,11 +3,22 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import LichBacSi from '@/src/components/LichBacSi/LichBacSi'
 import './style.css'
-
-
+import { toast } from 'react-toastify'
+import useLocalStorage from '@/src/hooks/useLocalStorage'
 const page = () => {
+    const [userData, setUserData] = useLocalStorage("userData", '')
     const params = useParams()
     const id = params.id
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/api/user/${id}`)
+            toast.info("delete thành công")
+            router.replace(`/dashboard/employees`)
+        } catch (error) {
+            console.log(error)
+            toast.error("delete không thành công")
+        }
+    }
 
     return (
         <>
@@ -28,6 +39,9 @@ const page = () => {
             </div>
             <div className='lich-bacsi'>
                 <LichBacSi IDNhaSi={id} />
+                {(userData.userType != "Dentist" && userData.userType != "Patient") && <button onClick={() => { handleDelete(id) }}>Xóa bác sĩ</button>
+                }
+
             </div>
 
 

@@ -5,7 +5,7 @@ import AdjustTreatment from '../SuaKeHoachDieuTri/SuaKeHoachDieuTri';
 import './style.css'
 import { useParams } from 'next/navigation';
 import axios from '@/util/axios';
-
+import useLocalStorage from '@/src/hooks/useLocalStorage';
 const loaiRang = {
     L: "Mặt trong",
     F: "Mặt ngoài",
@@ -192,13 +192,11 @@ const khdt2 = [
 
 const KhdtCard = ({ keHoach, handleAdjustTreatment }) => {
     const [isExpanded, setIsExpanded] = useState(false);
-    const [isAddingDonThuoc, setIsAddingDonThuoc] = useState([])
+    const [userData, setUserData] = useLocalStorage("userData", "")
     const handleToggle = () => {
         setIsExpanded(!isExpanded);
     };
-    const handleAddDonThuoc = () => {
-        setIsAddingDonThuoc(!isAddingDonThuoc);
-    }
+
     return (
         <div className={`khdt-card ${keHoach.trangThai === 'Kế hoạch' ? 'khdt-planned' : keHoach.trangThai === 'Đã hoàn thành' ? 'khdt-completed' : 'khdt-cancelled'} }`} onClick={handleToggle}>
             <div className={`khdtcard-header ${keHoach.trangThai === 'Kế hoạch' ? 'khdt-planned' : keHoach.trangThai === 'Đã hoàn thành' ? 'khdt-completed' : 'khdt-cancelled'} }`}>
@@ -227,9 +225,12 @@ const KhdtCard = ({ keHoach, handleAdjustTreatment }) => {
                     </ul>
                     <p><strong>Mô Tả</strong>: {keHoach.moTa}</p>
                     <p><strong>Ghi Chú</strong>: {keHoach.ghiChu}</p>
-                    <div className='adjust-treatment' onClick={handleAdjustTreatment}>
-                        Sửa
-                    </div>
+                    {
+                        userData.userType != "Patient" && <div className='adjust-treatment' onClick={handleAdjustTreatment}>
+                            Sửa
+                        </div>
+                    }
+
 
                 </div>
             )}
@@ -315,16 +316,11 @@ const Kehoachdieutri = () => {
             // chiPhi: data.chiPhi
         })
     }
-    const handleSearchClick = () => {
-        // Bạn có thể thêm xử lý tìm kiếm ở đây nếu cần
-        console.log('Đang tìm kiếm:', searchTerm);
-    };
+
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
-    const handleAddTreatment = (newTreatment) => {
 
-    };
     return (
         <div className="khdt-container">
             <button className='btn-add-treatment' onClick={() => setShowAddTreatment(!showAddTreatment)}>

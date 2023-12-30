@@ -5,10 +5,11 @@ import LichBacSi from '@/src/components/LichBacSi/LichBacSi'
 import './style.css'
 import axios from '@/util/axios'
 import { toast } from 'react-toastify'
-
+import useLocalStorage from '@/src/hooks/useLocalStorage'
 
 const page = () => {
     const router = useRouter()
+    const [userData, setUserData] = useLocalStorage("userData", "")
     const [userInfo, setUserInfo] = useState({})
     const params = useParams()
     const id = params.id
@@ -51,7 +52,10 @@ const page = () => {
                 <p>Số điện thoại: {userInfo.soDienThoai}</p>
                 <p>Ngày sinh: {userInfo.ngaySinh}</p>
                 <p>Email: {userInfo.email}</p>
-                <button onClick={() => { handleDelete(id) }}>Xóa nhân viên</button>
+                {
+                    userData.userType == "Admin" && <button onClick={() => { handleDelete(id) }}>Xóa nhân viên</button>
+                }
+
             </div>
         </>
     )

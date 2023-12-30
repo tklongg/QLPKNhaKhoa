@@ -4,42 +4,7 @@ import AddCCD from './AddCCD/AddCCD'
 import './style.css'
 import { useParams } from 'next/navigation'
 import axios from '@/util/axios'
-const chongChiDinhArr = [
-    {
-        IDThuoc: 1,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 2,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 3,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 4,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 5,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 6,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 6,
-        tenThuoc: "Thuoc 1"
-    },
-    {
-        IDThuoc: 6,
-        tenThuoc: "Thuoc 1"
-    },
-
-]
-
+import useLocalStorage from '@/src/hooks/useLocalStorage'
 
 const ChongChiDinhCard = ({ thuoc }) => {
     return (
@@ -63,9 +28,7 @@ const GhiChu = () => {
     // const [thongTin, setThongTin] = useState([])
     const params = useParams()
     const userId = params.id
-
-    // const tinhTrangDiUng = `Dị ứng với Lorem ipsum, dolor sit amet consectetur adipisicing elit. Minima, quos!`
-    // const ghiChu = `Không ăn uống Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt ducimus, necessitatibus vel officiis suscipit magni.`
+    const [userData, setUserData] = useLocalStorage("userData", '')
     const [userInfo, setUserInfo] = useState({})
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('')
@@ -98,9 +61,12 @@ const GhiChu = () => {
     // const currentCCD = filteredCCD.slice(startIndex, endIndex)
     return (
         <div className='ghichu-container'>
-            <button className='btn-add-treatment' onClick={() => setAddCCD((prev) => !prev)}>
-                {addCCD ? 'Ẩn' : 'Thêm'}
-            </button>
+            {
+                userData.userType != "Patient" && <button className='btn-add-treatment' onClick={() => setAddCCD((prev) => !prev)}>
+                    {addCCD ? 'Ẩn' : 'Thêm'}
+                </button>
+            }
+
             {addCCD ? <AddCCD
                 userInfo={userInfo}
                 setUserInfo={setUserInfo}

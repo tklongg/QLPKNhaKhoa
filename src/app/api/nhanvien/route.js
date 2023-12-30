@@ -29,12 +29,14 @@ export async function POST(request) {
             return NextResponse.json({ "error": "user already exists" }, { status: 500 })
         }
         else {
+            const userType = "Employee"
             const addData = {
                 ten,
                 ngaySinh,
                 gioiTinh,
                 soDienThoai,
-                email
+                email,
+                userType
             }
             const result = await db("UserTable").insert(addData)
             console.log(result)

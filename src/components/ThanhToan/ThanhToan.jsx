@@ -2,118 +2,14 @@ import axios from '@/util/axios'
 import { useParams } from 'next/navigation'
 import Pagination from '../Pagination/Pagination';
 import React, { useEffect, useState } from 'react'
-
+import useLocalStorage from '@/src/hooks/useLocalStorage';
 import './style.css'
 import { toast } from 'react-toastify';
-const thanhtoanArr = [
-    {
-        IDThanhToan: 1,
-        IDKeHoachDieuTri: 1,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-    {
-        IDThanhToan: 2,
-        IDKeHoachDieuTri: 2,
-        tienTra: 800000.0,
-        tienThoi: 300000.0,
-        ngayGiaoDich: "2023-12-28",
-        loaiThanhToan: "Tiền mặt",
-        IDNhaSi: 1,
-        tenNhaSi: "Nguyen Van A",
-        IDTroKham: 1,
-        tenTroKham: "Nguyen Van B",
-        chiPhi: 500000.0
-    },
-]
+
 
 const ThanhToanCard = ({ thanhToan }) => {
     const [isExpanded, setIsExpanded] = useState(false)
+    const [userData, setUserData] = useLocalStorage("userData", "")
     const handleToggle = () => {
         setIsExpanded((prev) => !prev);
     };
@@ -149,7 +45,7 @@ const ThanhToanCard = ({ thanhToan }) => {
                     <p><strong>Tiền Trả:</strong> {thanhToan.tienTra}</p>
                     <p><strong>Tiền Thối:</strong> {thanhToan.tienThoi}</p>
                     {
-                        thanhToan.tenTra == null && <button className="btn-thanh-toan" onClick={() => handleThanhToan(thanhToan.IDThanhToan)}>Thanh Toán</button>
+                        (thanhToan.tenTra == null && userData.userType != "Patient" && userData.userType != "Dentist") && <button className="btn-thanh-toan" onClick={() => handleThanhToan(thanhToan.IDThanhToan)}>Thanh Toán</button>
                     }
 
                 </div>

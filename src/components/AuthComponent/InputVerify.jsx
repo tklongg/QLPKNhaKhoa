@@ -4,7 +4,13 @@ import React, { useState, useEffect, useRef, useContext } from 'react'
 import { FirebaseContext } from '@/src/app/login/layout';
 import { getAuth } from "firebase/auth";
 import './inputverify.css'
+import useLocalStorage from '@/src/hooks/useLocalStorage';
+import axios from '@/util/axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
+    const router = useRouter()
+    const [userData, setUserData] = useLocalStorage("userData", "")
     const [code, setCode] = useState(Array(6).fill(''));
     const formRef = useRef(null);
     const { confirmationResult, setConfirmationResult } = useContext(FirebaseContext)
@@ -15,15 +21,27 @@ const InputVerify = ({ stepArr, step, setStep, phone, onVerify }) => {
     const handleBackStep = () => {
         setStep(stepArr[0])
     }
-    const handleNextStep = (event) => {
+    const handleNextStep = async (event) => {
         event.preventDefault();
         const strcode = getCode();
         confirmationResult.confirm(strcode).then((result) => {
             // User signed in successfully.
             // const user = result.user;
             console.log("okê con dê")
+            try {
+                const { data } = axios.get(`/api/sodienthoai/${phone}`)
+                if (data.error) {
+                    setStep(stepArr[2])
+                }
+                else if (data.IDUser) {
+                    setUserData({ id: data.IDUser, ten: data.ten, userType: data.userType });
+                    router.replace("/dashboard")
+                }
+            } catch (error) {
+                toast.error(error.message)
+                console.log(error)
+            }
 
-            setStep(stepArr[2])
             // ...
         }).catch((error) => {
             // User couldn't sign in (bad verification code?)

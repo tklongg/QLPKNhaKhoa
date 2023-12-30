@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import './style.css'
-
+import "react-toastify/dist/ReactToastify.css";
 const EmployeePage = () => {
     const router = useRouter()
     // useEffect(() => {

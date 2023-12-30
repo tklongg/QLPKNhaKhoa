@@ -59,18 +59,36 @@ export const addUser = async (phone, ten, ngaySinh, gioiTinh, email) => {
 export const deleteUser = async (id) => {
     try {
         await db("LichTuan").where({ "IDNhaSi": id }).del()
+        console.log(1)
         await db("LichThang").where({ "IDNhaSi": id }).del()
+        console.log(2)
         await db("LichNgay").where({ "IDNhaSi": id }).del()
+        console.log(3)
         await db("CuocHen").where({ "IDBenhNhan": id }).orWhere({ "IDNhaSi": id }).orWhere({ "IDTroKham": id }).del()
+        console.log(4)
+
         const kehoachdt = await db("KeHoachDieuTri").where({ "IDBenhNhan": id }).orWhere({ "IDNhaSi": id }).orWhere({ "IDTroKham": id }).pluck("IDKeHoachDieuTri");
+        console.log(5)
 
         await db("KeHoachDieuTri_Rang")
             .whereIn("IDKeHoachDieuTri", kehoachdt)
             .del();
+        console.log(6)
+
         await db("ThanhToan").whereIn("IDKeHoachDieuTri", kehoachdt).del()
+        console.log(7)
+
         await db("DonThuoc").whereIn("IDKeHoachDieuTri", kehoachdt).del()
+        console.log(8)
+
+
+
         await db("ChongChiDinh").where({ "IDBenhNhan": id }).del()
+        console.log(9)
+        await db("KeHoachDieuTri").where({ "IDBenhNhan": id }).orWhere({ "IDNhaSi": id }).orWhere({ "IDTroKham": id }).del()
+        console.log(10)
         await db("UserTable").where({ "IDUser": id }).del()
+
         console.log("deleted")
     } catch (error) {
         console.log("failed to delete")

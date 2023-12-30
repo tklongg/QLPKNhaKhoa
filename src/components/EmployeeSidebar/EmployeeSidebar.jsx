@@ -5,6 +5,7 @@ import SidebarItem from './SidebarItem';
 import './EmployeeSidebar.css'; // Import CSS module for styling
 const arr = ["Cuộc hẹn", "Nha sĩ", "Bệnh nhân"]
 import { useSearchParams } from 'next/navigation';
+import useLocalStorage from '@/src/hooks/useLocalStorage';
 const sidebarItems = [
     { link: '/dashboard/appointments', text: 'Cuộc hẹn' },
     { link: '/dashboard/dentists', text: 'Nha sĩ' },
@@ -12,7 +13,7 @@ const sidebarItems = [
     { link: '/dashboard/employees', text: 'Nhân viên' },
 ];
 const EmployeeSidebar = () => {
-
+    const [userData, setUserData] = useLocalStorage("userData", "")
     const [chosen, setChosen] = useState(0);
 
     const handleSelect = (index) => {
@@ -53,7 +54,43 @@ const EmployeeSidebar = () => {
                             </Link>
                         </div>
                     </li> */}
-                    {sidebarItems.map((item, index) => (
+                    {
+                        userData.userType != "Patient" && <SidebarItem
+                            key={0}
+                            link={sidebarItems[0].link}
+                            text={sidebarItems[0].text}
+                            selected={0 === chosen}
+                            onSelect={() => handleSelect(0)}
+                        />
+                    }
+                    {
+                        userData.userType != "Patient" && <SidebarItem
+                            key={1}
+                            link={sidebarItems[1].link}
+                            text={sidebarItems[1].text}
+                            selected={1 === chosen}
+                            onSelect={() => handleSelect(1)}
+                        />
+                    }
+                    {
+                        <SidebarItem
+                            key={2}
+                            link={sidebarItems[2].link}
+                            text={sidebarItems[2].text}
+                            selected={2 === chosen}
+                            onSelect={() => handleSelect(2)}
+                        />
+                    }
+                    {
+                        (userData.userType != "Patient" && userData.userType != "Dentist") && <SidebarItem
+                            key={3}
+                            link={sidebarItems[3].link}
+                            text={sidebarItems[3].text}
+                            selected={3 === chosen}
+                            onSelect={() => handleSelect(3)}
+                        />
+                    }
+                    {/* {sidebarItems.map((item, index) => (
                         <SidebarItem
                             key={index}
                             link={item.link}
@@ -61,7 +98,7 @@ const EmployeeSidebar = () => {
                             selected={index === chosen}
                             onSelect={() => handleSelect(index)}
                         />
-                    ))}
+                    ))} */}
                 </ul>
             </div>
         </div>

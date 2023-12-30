@@ -23,8 +23,6 @@ export default function RootLayout({ children }) {
         }
         if (!userData.id) {
             router.push('/login');
-        } else if (userData.userType === "User") {
-            router.push('/dathen');
         }
         // else {
         //     router.push('/nhanvien/appointments');

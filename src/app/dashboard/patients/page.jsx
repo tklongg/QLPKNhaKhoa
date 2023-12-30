@@ -6,7 +6,7 @@ import SearchBar from '@/src/components/SearchBar/SearchBar';
 import Link from 'next/link';
 import Pagination from '@/src/components/Pagination/Pagination';
 import axios from '@/util/axios';
-const areaDataCache = {};
+// const areaDataCache = {};
 // const patients = [
 //     {
 //         IDUser: 1,
@@ -111,14 +111,10 @@ const Patients = () => {
         const fetchAllUsers = async () => {
             const { data } = await axios.get('/api/user')
             setPatients(data.slice(0, 1000))
-            areaDataCache.user = data.slice(0, 1000)
+            // areaDataCache.user = data.slice(0, 1000)
         }
-        if (!areaDataCache.user) {
-            fetchAllUsers()
-        }
-        else {
-            setPatients(areaDataCache.user)
-        }
+        fetchAllUsers()
+
     }, [])
     const filteredItems = patients.filter(patient => patient.ten.toLowerCase().includes(searchTerm.toLowerCase()))
     const currPatient = filteredItems

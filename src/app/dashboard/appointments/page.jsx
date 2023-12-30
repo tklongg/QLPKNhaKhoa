@@ -139,14 +139,14 @@ const Appointments = () => {
                     <p>Cuộc hẹn</p>
                 </div>
             </div>
-            <div className='add-apm-btn'>
+            {userData.userType != "Dentist" && <div className='add-apm-btn'>
                 <Link href={"/dathen-nhanvien"} target='_blank'>
                     <button onClick={handleAddApm}>
                         Thêm cuộc hẹn
                     </button>
                 </Link>
 
-            </div>
+            </div>}
 
             <div className="filter-section">
                 <p>Chọn ngày</p>
@@ -211,9 +211,9 @@ const Appointments = () => {
                                         <td>{appointment.IDCuocHen}</td>
                                         <td>{appointment.ngayHen}</td>
                                         <td>{appointment.thoiGian}</td>
-                                        <td>{appointment.tenUser}</td>
+                                        <td><Link href={`/dashboard/patients/detail/${appointment.IDBenhNhan}`}>{appointment.tenUser}</Link></td>
                                         <td>{appointment.soDienThoai}</td>
-                                        <td>{appointment.tenBacSi}</td>
+                                        <td><Link href={`/dashboard/dentists/detail/${appointment.IDNhaSi}`}>{appointment.tenBacSi}</Link></td>
                                         <td>{appointment.tenPhongKham}</td>
                                         <td>{appointment.tinhTrang}</td>
                                         <td>
@@ -264,9 +264,11 @@ const Appointments = () => {
 
                                                         </div>
                                                         <div>
-                                                            <p><strong>Tên User:</strong> {appointment.tenUser}</p>
-                                                            <p><strong>Tên Bác Sĩ:</strong> {appointment.tenBacSi}</p>
-                                                            <p><strong>Tên Trợ Khám:</strong> {appointment.tenTroKham || "Không có"}</p>
+                                                            <p><strong>Tên User:</strong> <Link href={`/dashboard/patients/detail/${appointment.IDBenhNhan}`}>{appointment.tenUser}</Link></p>
+                                                            <p><strong>Tên Bác Sĩ:</strong> <Link href={`/dashboard/dentists/detail/${appointment.IDNhaSi}`}>{appointment.tenBacSi}</Link></p>
+                                                            <p><strong>Tên Trợ Khám:</strong> {
+                                                                appointment.IDTroKham != null && <Link href={`/dashboard/dentists/detail/${appointment.IDTroKham}`}>{appointment.tenTroKham}</Link>
+                                                            }</p>
                                                             <p><strong>Tên Phòng Khám:</strong> {appointment.tenPhongKham}</p>
                                                             <p><strong>Tình Trạng:</strong> {appointment.tinhTrang}</p>
                                                             <p><strong>Số Điện Thoại:</strong> {appointment.soDienThoai}</p>
