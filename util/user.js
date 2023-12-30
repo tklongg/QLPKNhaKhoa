@@ -58,16 +58,78 @@ export const addUser = async (phone, ten, ngaySinh, gioiTinh, email) => {
 
 export const deleteUser = async (id) => {
     try {
-        await db("UserTable").where("IDUser", id).del()
+        await db("LichTuan").where({ "IDNhaSi": id }).del()
+        await db("LichThang").where({ "IDNhaSi": id }).del()
+        await db("LichNgay").where({ "IDNhaSi": id }).del()
+        await db("CuocHen").where({ "IDBenhNhan": id }).orWhere({ "IDNhaSi": id }).orWhere({ "IDTroKham": id }).del()
+        const kehoachdt = await db("KeHoachDieuTri").where({ "IDBenhNhan": id }).orWhere({ "IDNhaSi": id }).orWhere({ "IDTroKham": id }).pluck("IDKeHoachDieuTri");
+
+        await db("KeHoachDieuTri_Rang")
+            .whereIn("IDKeHoachDieuTri", kehoachdt)
+            .del();
+        await db("ThanhToan").whereIn("IDKeHoachDieuTri", kehoachdt).del()
+        await db("DonThuoc").whereIn("IDKeHoachDieuTri", kehoachdt).del()
+        await db("ChongChiDinh").where({ "IDBenhNhan": id }).del()
+        await db("UserTable").where({ "IDUser": id }).del()
         console.log("deleted")
     } catch (error) {
         console.log("failed to delete")
     }
 }
 
+export const deleteUserUsingTransaction = async (id) => {
+    const transaction = await db.transaction();
+
+    try {
+        await transaction("LichTuan").where({ "IDNhaSi": id }).del();
+        await transaction("LichThang").where({ "IDNhaSi": id }).del();
+        await transaction("LichNgay").where({ "IDNhaSi": id }).del();
+
+        // Kiểm tra tồn tại trước khi xóa
+        const cuocHenCount = await transaction("CuocHen")
+            .where({ "IDBenhNhan": id })
+            .orWhere({ "IDNhaSi": id })
+            .orWhere({ "IDTroKham": id })
+            .count();
+
+        if (cuocHenCount > 0) {
+            await transaction("CuocHen").where({ "IDBenhNhan": id }).orWhere({ "IDNhaSi": id }).orWhere({ "IDTroKham": id }).del();
+        }
+
+        const kehoachdt = await transaction("KeHoachDieuTri")
+            .where({ "IDBenhNhan": id })
+            .orWhere({ "IDNhaSi": id })
+            .orWhere({ "IDTroKham": id })
+            .pluck("IDKeHoachDieuTri");
+
+        // Kiểm tra tồn tại trước khi xóa
+        const keHoachDieuTriRangCount = await transaction("KeHoachDieuTri_Rang")
+            .whereIn("IDKeHoachDieuTri", kehoachdt)
+            .count();
+
+        if (keHoachDieuTriRangCount > 0) {
+            await transaction("KeHoachDieuTri_Rang")
+                .whereIn("IDKeHoachDieuTri", kehoachdt)
+                .del();
+        }
+
+        // Tiếp tục với các bước khác...
+        await transaction("UserTable")
+            .where({ "IDUser": id })
+            .del();
+        // Commit transaction
+        await transaction.commit();
+        console.log("deleted");
+    } catch (error) {
+        // Rollback transaction nếu có lỗi
+        await transaction.rollback();
+        console.log("failed to delete", error);
+    }
+};
+
 export const updateUser = async (id, data) => {
     try {
-        await db("UserTable").where("IDUser", id).update(
+        await db("UserTable").where({ "IDUser": id }).update(
             data
         )
         console.log('User updated successfully');

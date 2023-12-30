@@ -1,12 +1,31 @@
 import axios from '@/util/axios';
 import React, { useState, useEffect } from 'react';
 import moment from 'moment'; // Import moment library
-
+import ThemThoiGianRanh from './ThemBacSi/ThemBacSi';
+import "react-toastify/dist/ReactToastify.css"
+import ThemLichTuan from './ThemTuan/ThemTuan';
 const LichBacSi = ({ IDNhaSi }) => {
     const [lichNgay, setLichNgay] = useState([]);
     const [lichTuan, setLichTuan] = useState([]);
     const [lichThang, setLichThang] = useState([]);
+    const [isThemThoiGianRanhVisible, setThemThoiGianRanhVisible] = useState(false);
+    const [isThemTuan, setIsThemTuan] = useState(false);
+    const [isThemThang, setIsThemThang] = useState(false);
+    const handleThemThoiGianRanhToggle = () => {
+        setThemThoiGianRanhVisible(!isThemThoiGianRanhVisible);
+    };
 
+    const handleThemThoiGianRanh = (newData) => {
+        setLichNgay([...lichNgay, newData]);
+    };
+
+    const handleThemTuanToggle = () => {
+        setIsThemTuan(!isThemTuan);
+    };
+
+    const handleThemTuan = (newData) => {
+        setLichTuan([...lichTuan, newData]);
+    };
     useEffect(() => {
         // Gọi API để lấy dữ liệu từ backend
         const fetchData = async () => {
@@ -59,6 +78,14 @@ const LichBacSi = ({ IDNhaSi }) => {
                         <p>{`Ngày: ${lich.ngay}, Thời gian: ${lich.timeStart} - ${lich.timeEnd}`}</p>
                     </div>
                 ))}
+                <button onClick={handleThemThoiGianRanhToggle}>Thêm Thời Gian Rãnh</button>
+                {isThemThoiGianRanhVisible && (
+                    <ThemThoiGianRanh
+                        IDNhaSi={IDNhaSi}
+                        onThemThoiGianRanh={handleThemThoiGianRanh}
+                        onClose={handleThemThoiGianRanhToggle}
+                    />
+                )}
             </div>
 
             {/* Hiển thị thông tin Lịch Tuần */}
@@ -70,6 +97,14 @@ const LichBacSi = ({ IDNhaSi }) => {
                         <p>{`Thứ Hai: ${lich.days.mon}, Thứ Ba: ${lich.days.tue}, Thứ Tư: ${lich.days.wed}, Thứ Năm: ${lich.days.thu}, Thứ Sáu: ${lich.days.fri}, Thứ Bảy: ${lich.days.sat}, Chủ Nhật: ${lich.days.sun}`}</p>
                     </div>
                 ))}
+                <button onClick={(e) => setIsThemTuan((prev) => !prev)}>Thêm Thời Gian Rãnh</button>
+                {isThemTuan && (
+                    <ThemLichTuan
+                        IDNhaSi={IDNhaSi}
+                        onThemThoiGianRanh={handleThemTuan}
+                        onClose={handleThemTuanToggle}
+                    />
+                )}
             </div>
 
             {/* Hiển thị thông tin Lịch Tháng */}
@@ -82,6 +117,7 @@ const LichBacSi = ({ IDNhaSi }) => {
                     </div>
                 ))}
             </div>
+
         </div>
     );
 };
