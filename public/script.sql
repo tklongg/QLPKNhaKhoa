@@ -275,11 +275,11 @@ BEGIN
 
     IF (SELECT COUNT(*) FROM inserted WHERE timeStart > timeEnd) > 0
     BEGIN
-        RAISEERROR('timeStart không được lớn hơn timeEnd', 16, 1);
+        RAISERROR('timeStart không được lớn hơn timeEnd', 16, 1);
         ROLLBACK;
     END
 END;
-
+GO
 CREATE TRIGGER tr_CheckDoctorAvailability
 ON CuocHen
 AFTER INSERT
@@ -291,14 +291,14 @@ BEGIN
         SELECT COUNT(*)
         FROM inserted i
         JOIN LichNgay ln ON i.IDNhaSi = ln.IDNhaSi
-                         AND i.ngay = ln.ngay
+                         AND i.ngayHen = ln.ngay
                          AND (
                              i.thoiGian < ln.timeStart 
                              OR i.thoiGian > ln.timeEnd
                          )
     ) > 0
     BEGIN
-        RAISEERROR('Bác sĩ không làm việc vào thời gian này', 16, 1);
+        RAISERROR('Bác sĩ không làm việc vào thời gian này', 16, 1);
         ROLLBACK;
     END
 END;
