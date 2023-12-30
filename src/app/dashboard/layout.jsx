@@ -15,12 +15,12 @@ export default function RootLayout({ children }) {
     const [userData, setUserData] = useLocalStorage("userData", '');
     // setUserData()
     useEffect(() => {
-        const setTestUserData = () => {
-            setUserData({ id: 1, ten: "Long", userType: "Dentist" });
-        };
-        if (Object.keys(userData).length === 0) {
-            setTestUserData();
-        }
+        // const setTestUserData = () => {
+        //     setUserData({ id: 1, ten: "Long", userType: "Dentist" });
+        // };
+        // if (Object.keys(userData).length === 0) {
+        //     setTestUserData();
+        // }
         if (!userData.id) {
             router.push('/login');
         }
