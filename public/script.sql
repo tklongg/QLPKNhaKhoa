@@ -175,14 +175,7 @@ alter table ThanhToan add constraint FK_ThanhToan_KHDT foreign key (IDKeHoachDie
 
 
 ---index
-CREATE NONCLUSTERED INDEX IX_LichNgay_IDNhaSi
-ON LichNgay(IDNhaSi);
 
-CREATE NONCLUSTERED INDEX IX_LichNgay_Ngay
-ON LichNgay (Ngay);
-
-CREATE NONCLUSTERED INDEX IX_CuocHen_IDBenhNhan
-ON CuocHen(IDBenhNhan);
 --store procedure
 --Duc
 
@@ -302,3 +295,30 @@ BEGIN
         ROLLBACK;
     END
 END;
+
+CREATE NONCLUSTERED INDEX IX_LichNgay_IDNhaSi
+ON LichNgay(IDNhaSi);
+
+CREATE NONCLUSTERED INDEX IX_LichTuan_IDNhaSi
+ON LichTuan(IDNhaSi)
+
+CREATE NONCLUSTERED INDEX IX_LichThang_IDNhaSi
+ON LichThang(IDNhaSi)
+
+CREATE NONCLUSTERED INDEX IX_CuocHen_IDBenhNhan
+ON CuocHen(IDBenhNhan);
+
+CREATE NONCLUSTERED INDEX IX_HoSoBenhNhan_IDUser
+ON HoSoBenhNhan(IDBenhNhan)
+
+CREATE NONCLUSTERED INDEX IX_KeHoachDieuTri_IDBenhNhan
+ON KeHoachDieuTri(IDBenhNhan)
+
+CREATE NONCLUSTERED INDEX IX_KeHoachDieuTri_Rang_IDKHDT
+ON KeHoachDieuTri_Rang(IDKeHoachDieuTri)
+
+CREATE NONCLUSTERED INDEX IX_ThanhToan_IDKHDT
+ON ThanhToan(IDKeHoachDieuTri)
+
+CREATE NONCLUSTERED INDEX IX_UserTable_UserType
+ON UserTable(userType)
