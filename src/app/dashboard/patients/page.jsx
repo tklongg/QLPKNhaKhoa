@@ -140,7 +140,7 @@ const Patients = () => {
             <div className='patient-wrap'>
                 <div className='wrap-title'>Danh sách bệnh nhân</div>
                 {currPatient.map((patient) => (
-                    <Link key={patient.IDUser} href={`/nhanvien/patients/detail/${patient.IDUser}`}>
+                    <Link key={patient.IDUser} href={`/dashboard/patients/detail/${patient.IDUser}`}>
                         <div className='patient-card'>
                             <div className='patient-info'>
                                 <p>

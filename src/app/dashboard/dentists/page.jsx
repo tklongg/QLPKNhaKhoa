@@ -72,7 +72,7 @@ const Dentists = () => {
             <div className='patient-wrap'>
                 <div className='wrap-title'>Danh sách nha sĩ</div>
                 {currPatient.map((patient) => (
-                    <Link key={patient.IDUser} href={`/nhanvien/dentists/detail/${patient.IDUser}`}>
+                    <Link key={patient.IDUser} href={`/dashboard/dentists/detail/${patient.IDUser}`}>
                         <div className='patient-card'>
                             <div className='patient-info'>
                                 <p>

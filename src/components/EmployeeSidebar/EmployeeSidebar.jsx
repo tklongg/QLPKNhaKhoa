@@ -6,9 +6,10 @@ import './EmployeeSidebar.css'; // Import CSS module for styling
 const arr = ["Cuộc hẹn", "Nha sĩ", "Bệnh nhân"]
 import { useSearchParams } from 'next/navigation';
 const sidebarItems = [
-    { link: '/nhanvien/appointments', text: 'Cuộc hẹn' },
-    { link: '/nhanvien/dentists', text: 'Nha sĩ' },
-    { link: '/nhanvien/patients', text: 'Bệnh nhân' },
+    { link: '/dashboard/appointments', text: 'Cuộc hẹn' },
+    { link: '/dashboard/dentists', text: 'Nha sĩ' },
+    { link: '/dashboard/patients', text: 'Bệnh nhân' },
+    { link: '/dashboard/employees', text: 'Nhân viên' },
 ];
 const EmployeeSidebar = () => {
 
@@ -21,8 +22,8 @@ const EmployeeSidebar = () => {
         <div className='sidebar'>
             <div className='sidebar-title-wrap'>
                 <div className='sidebar-title'>
-                    <Link href="/nhanvien">
-                        <p className='title'>Nhân viên</p>
+                    <Link href="/dashboard">
+                        <p className='title'>Dashboard</p>
                     </Link>
 
                 </div>

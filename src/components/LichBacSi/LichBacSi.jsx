@@ -1,59 +1,54 @@
-import React, { useState, useEffect } from 'react'
-const lichNgayTest = [
-    {
-        "IDLich": 1,
-        "IDNhaSi": 1,
-        "ngay": "2023-01-01",
-        "timeStart": "08:00:00",
-        "timeEnd": "12:00:00"
-    },
-    {
-        "IDLich": 2,
-        "IDNhaSi": 1,
-        "ngay": "2023-01-02",
-        "timeStart": "09:00:00",
-        "timeEnd": "13:00:00"
-    },
-    // Thêm các thông tin khác nếu cần
-]
-const lichTuanTest = [
-    {
-        "IDLich": 1,
-        "IDNhaSi": 1,
-        "weekStart": "2023-01-01",
-        "weekEnd": "2023-01-07",
-        "mon": 1,
-        "tue": 1,
-        "wed": 1,
-        "thu": 0,
-        "fri": 0,
-        "sat": 0,
-        "sun": 0
-    },
-    // Thêm các thông tin khác nếu cần
-]
-const lichThangTest = [
-    {
-        "IDLich": 1,
-        "IDNhaSi": 1,
-        "thang": 1,
-        "nam": 2023,
-        "ngayRanh": "1,2,3,4,5"
-    },
-    // Thêm các thông tin khác nếu cần
-]
-const LichBacSi = () => {
+import axios from '@/util/axios';
+import React, { useState, useEffect } from 'react';
+import moment from 'moment'; // Import moment library
 
-    const [lichNgay, setLichNgay] = useState(lichNgayTest);
-    const [lichTuan, setLichTuan] = useState(lichTuanTest);
-    const [lichThang, setLichThang] = useState(lichThangTest);
+const LichBacSi = ({ IDNhaSi }) => {
+    const [lichNgay, setLichNgay] = useState([]);
+    const [lichTuan, setLichTuan] = useState([]);
+    const [lichThang, setLichThang] = useState([]);
+
     useEffect(() => {
-        // Gọi API hoặc backend để lấy dữ liệu và cập nhật state
-        // Ví dụ: fetchLichNgay(), fetchLichTuan(), fetchLichThang()
-        // setLichNgay(...);
-        // setLichTuan(...);
-        // setLichThang(...);
-    }, []);
+        // Gọi API để lấy dữ liệu từ backend
+        const fetchData = async () => {
+            try {
+                const { data } = await axios.get(`/api/dentist/schedule/${IDNhaSi}`);
+
+                // Chuẩn hóa định dạng ngày và giờ
+                const formattedNgay = data.ngay.map((lich) => ({
+                    ...lich,
+                    ngay: moment(lich.ngay).format('YYYY-MM-DD'),
+                    timeStart: moment(lich.timeStart).format('HH:mm'),
+                    timeEnd: moment(lich.timeEnd).format('HH:mm'),
+                }));
+
+                const formattedTuan = data.tuan.map((lich) => ({
+                    ...lich,
+                    weekStart: moment(lich.weekStart).format('YYYY-MM-DD'),
+                    weekEnd: moment(lich.weekEnd).format('YYYY-MM-DD'),
+                    days: {
+                        mon: lich.mon ? 'Có' : 'Không',
+                        tue: lich.tue ? 'Có' : 'Không',
+                        wed: lich.wed ? 'Có' : 'Không',
+                        thu: lich.thu ? 'Có' : 'Không',
+                        fri: lich.fri ? 'Có' : 'Không',
+                        sat: lich.sat ? 'Có' : 'Không',
+                        sun: lich.sun ? 'Có' : 'Không',
+                    },
+                }));
+
+                // ... Tương tự cho lichThang
+
+                setLichNgay(formattedNgay);
+                setLichTuan(formattedTuan);
+                setLichThang(data.thang);
+            } catch (error) {
+                console.error('Lỗi khi lấy dữ liệu từ API:', error);
+            }
+        };
+
+        fetchData();
+    }, [IDNhaSi]); // Dependency array chứa IDNhaSi để useEffect chạy lại khi IDNhaSi thay đổi
+
     return (
         <div className="lich-bac-si">
             {/* Hiển thị thông tin Lịch Ngày */}
@@ -72,7 +67,7 @@ const LichBacSi = () => {
                 {lichTuan.map((lich) => (
                     <div key={lich.IDLich}>
                         <p>{`Tuần từ ${lich.weekStart} đến ${lich.weekEnd}`}</p>
-                        <p>{`Thứ Hai: ${lich.mon ? 'Có' : 'Không'}, Thứ Ba: ${lich.tue ? 'Có' : 'Không'}, ...`}</p>
+                        <p>{`Thứ Hai: ${lich.days.mon}, Thứ Ba: ${lich.days.tue}, Thứ Tư: ${lich.days.wed}, Thứ Năm: ${lich.days.thu}, Thứ Sáu: ${lich.days.fri}, Thứ Bảy: ${lich.days.sat}, Chủ Nhật: ${lich.days.sun}`}</p>
                     </div>
                 ))}
             </div>
@@ -89,6 +84,6 @@ const LichBacSi = () => {
             </div>
         </div>
     );
-}
+};
 
-export default LichBacSi
+export default LichBacSi;

@@ -263,3 +263,42 @@ BEGIN
     SET tinhTrang = @tinhTrang
     WHERE IDCuocHen = @IDCuocHen;
 END
+
+
+---trigger
+CREATE TRIGGER tr_CheckTimeRange
+ON LichNgay
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF (SELECT COUNT(*) FROM inserted WHERE timeStart > timeEnd) > 0
+    BEGIN
+        RAISEERROR('timeStart không được lớn hơn timeEnd', 16, 1);
+        ROLLBACK;
+    END
+END;
+
+CREATE TRIGGER tr_CheckDoctorAvailability
+ON CuocHen
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF (
+        SELECT COUNT(*)
+        FROM inserted i
+        JOIN LichNgay ln ON i.IDNhaSi = ln.IDNhaSi
+                         AND i.ngay = ln.ngay
+                         AND (
+                             i.thoiGian < ln.timeStart 
+                             OR i.thoiGian > ln.timeEnd
+                         )
+    ) > 0
+    BEGIN
+        RAISEERROR('Bác sĩ không làm việc vào thời gian này', 16, 1);
+        ROLLBACK;
+    END
+END;

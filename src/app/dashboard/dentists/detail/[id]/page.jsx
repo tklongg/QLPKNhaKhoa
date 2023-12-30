@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import LichBacSi from '@/src/components/LichBacSi/LichBacSi'
 import './style.css'
@@ -26,8 +26,8 @@ const page = () => {
                 </div>
                 <p className="patient-name"><strong>Nguyễn Văn A</strong></p>
             </div>
-            <div>
-                <LichBacSi />
+            <div className='lich-bacsi'>
+                <LichBacSi IDNhaSi={id} />
             </div>
 
 

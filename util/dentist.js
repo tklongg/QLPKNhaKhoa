@@ -85,3 +85,21 @@ export const getAllDentistIds = async () => {
     }
 };
 
+export const getDentistScheduleById = async (IDNhaSi) => {
+    try {
+        // Lấy lịch ngày, tuần, tháng và kết hợp kết quả
+        const ngay = await db("LichNgay").where({ "IDNhaSi": IDNhaSi }).select()
+        const tuan = await db("LichTuan").where({ "IDNhaSi": IDNhaSi }).select()
+        const thang = await db("Lichthang").where({ "IDNhaSi": IDNhaSi }).select()
+        const data = {
+            ngay: ngay,
+            tuan: tuan,
+            thang: thang,
+        }
+        console.log(data)
+        return data;
+    } catch (error) {
+        console.error('Lỗi khi lấy thời khóa biểu của nha sĩ:', error);
+        throw error;
+    }
+};

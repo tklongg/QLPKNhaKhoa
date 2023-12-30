@@ -27,7 +27,6 @@ export const testAA = async (IDBenhNhan) => {
             .where('KeHoachDieuTri.IDBenhNhan', IDBenhNhan)
 
 
-        // Process the result to match the desired output format
         const formattedResult = await Promise.all(result.map(async (row) => {
             const teeth = await db('KeHoachDieuTri_Rang')
                 .select('IDLoaiMatRang', 'STT')
@@ -43,7 +42,7 @@ export const testAA = async (IDBenhNhan) => {
                 tenDanhMuc: row.tenDanhMuc,
                 IDLieuTrinh: row.IDLieuTrinh,
                 tenLieuTrinh: row.tenLieuTrinh,
-                ngayDieuTri: row.ngayDieuTri.toISOString().split('T')[0], // Format date as "YYYY-MM-DD"
+                ngayDieuTri: row.ngayDieuTri.toISOString().split('T')[0],
                 moTa: row.moTa,
                 chiPhi: row.chiPhi,
                 trangThai: row.trangThai,

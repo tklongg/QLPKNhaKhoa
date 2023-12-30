@@ -140,9 +140,12 @@ const Appointments = () => {
                 </div>
             </div>
             <div className='add-apm-btn'>
-                <button onClick={handleAddApm}>
-                    Thêm cuộc hẹn
-                </button>
+                <Link href={"/dathen-nhanvien"} target='_blank'>
+                    <button onClick={handleAddApm}>
+                        Thêm cuộc hẹn
+                    </button>
+                </Link>
+
             </div>
 
             <div className="filter-section">
