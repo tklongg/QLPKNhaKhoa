@@ -45,7 +45,7 @@ export const getUserByPhone = async (phone) => {
 }
 
 export const addUser = async (phone, ten, ngaySinh, gioiTinh, email) => {
-    const [IDUser] = await db("UserTable").returning('IDUser').insert({ soDienThoai: phone, ten: ten, ngaySinh: ngaySinh, gioiTinh: gioiTinh, email: email })
+    const [IDUser] = await db("UserTable").returning('IDUser').insert({ soDienThoai: phone, ten: ten, ngaySinh: ngaySinh, gioiTinh: gioiTinh, email: email, userType: "Patient" })
     console.log("added", {
         IDUser: IDUser,
         soDienThoai: phone, ten: ten, ngaySinh: ngaySinh, gioiTinh: gioiTinh, email: email

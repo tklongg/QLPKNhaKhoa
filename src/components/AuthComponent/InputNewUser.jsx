@@ -22,7 +22,6 @@ const InputNewUser = ({ stepArr, phone, setStep, name, setName, dob, setDOB, gio
         }
         else {
             toast.error("Something wrong. Please try again!")
-            console.log("no bitch")
         }
     };
     const getDOB = () => {
